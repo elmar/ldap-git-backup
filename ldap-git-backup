@@ -1,0 +1,31 @@
+#!/usr/bin/perl
+# vim: set filetype=perl :
+use Modern::Perl;
+use English qw( -no_match_vars);
+use Carp;
+use Pod::Usage;
+use Getopt::Long;
+
+my $help;
+GetOptions(
+    'help' => \$help,
+);
+pod2usage('-verbose' => 2, '-exit_status' => 0) if $help;
+
+exit 0
+__END__
+
+=head1 NAME
+
+ldap-git-backup - check in LDIF from an LDAP server into a GIT repository
+
+=head1 SYNOPSIS
+
+ldap-git-backup --help
+
+=head1 DESCRIPTION
+
+TODO
+
+=cut
+
