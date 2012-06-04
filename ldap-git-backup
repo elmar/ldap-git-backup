@@ -3,16 +3,26 @@
 use Modern::Perl;
 use English qw( -no_match_vars);
 use Carp;
-use Pod::Usage;
-use Getopt::Long;
 
-my $help;
-GetOptions(
-    'help' => \$help,
-);
-pod2usage('-verbose' => 2, '-exit_status' => 0) if $help;
+main() unless caller(0);
 
-exit 0
+sub main {
+    use Pod::Usage;
+    use Getopt::Long;
+
+    my $ldif_cmd = '/usr/sbin/slapcat';
+    my $backup_dir = '/var/backup/ldap';
+    my $help;
+    GetOptions(
+        'ldif-cmd=s'   => \$ldif_cmd,
+        'backup-dir=s' => \$backup_dir,
+        'help'         => \$help,
+    );
+    pod2usage('-verbose' => 2, '-exit_status' => 0) if $help;
+    pod2usage() if @ARGV;
+}
+
+1;
 __END__
 
 =head1 NAME
@@ -21,11 +31,42 @@ ldap-git-backup - check in LDIF from an LDAP server into a GIT repository
 
 =head1 SYNOPSIS
 
+ldap-git-backup [options]
+
 ldap-git-backup --help
 
 =head1 DESCRIPTION
 
-TODO
+ldap-git-backup takes an LDIF dump of an LDAP server and updates a GIT repository
+that serves as a versioned backup.
+
+ldap-git-backup splits the LDIF data into separate entries.  It constructs
+unique but stable file names using a combination of the creation time stamp for
+ordering and the DN as the unique key for an entry.
+
+=head1 OPTIONS
+
+=over 4
+
+=item B<--ldif-cmd <dump_ldif_command>>
+
+Specify a command to create a complete LDIF dump of the LDAP directory suitable
+for a backup.  It should contain all entries necessary to restore the LDAP
+database.  By default /usr/sbin/slapcat from OpenLDAP is taken.
+
+=item B<--backup-dir <backup_directory>>
+
+Specify the directory where the GIT repository for the versioned backup is held.
+Default: /var/backup/ldap
+
+=item B<--help>
+
+Prints this page.
+
+=back
+
+=head1 AUTHOR
+
+Elmar S. Heeb <elmar@heebs.ch>
 
 =cut
-
