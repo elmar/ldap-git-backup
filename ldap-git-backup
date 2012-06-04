@@ -20,9 +20,48 @@ sub main {
     );
     pod2usage('-verbose' => 2, '-exit_status' => 0) if $help;
     pod2usage() if @ARGV;
+
+    my $ldif_aref = LDAP::Utils::read_ldif($ldif_cmd);
 }
 
 1;
+
+package LDAP::Utils;
+use Modern::Perl;
+use English qw( -no_match_vars);
+use Carp;
+
+sub read_ldif {
+    my ($ldif_cmd) = @_;
+
+    my $entry_count = -1;
+    my $ldif_aref = [];
+    until ($entry_count == @$ldif_aref) {
+        $entry_count = @$ldif_aref;
+        $ldif_aref = read_ldif_raw($ldif_cmd);
+    }
+
+    return $ldif_aref;
+}
+
+sub read_ldif_raw {
+    my ($ldif_cmd) = @_;
+
+    my $ldif_aref = [];
+    my $ldif_fh;
+    local $INPUT_RECORD_SEPARATOR = "\n\n";
+
+    open( $ldif_fh, '-|', $ldif_cmd) or die "Can't exec '$ldif_cmd': $!";
+    while (my $record = <$ldif_fh>) {
+        push(@$ldif_aref, $record);
+    }
+    close($ldif_fh) or die "$ldif_cmd exited with $?: $!";
+
+    return $ldif_aref;
+}
+
+
+
 __END__
 
 =head1 NAME
