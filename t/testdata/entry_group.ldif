@@ -1,0 +1,11 @@
+dn: ou=group,dc=example,dc=org
+ou: group
+objectClass: organizationalUnit
+structuralObjectClass: organizationalUnit
+entryUUID: f45c35aa-42ab-1031-93e4-178d19843e83
+creatorsName: cn=admin,dc=example,dc=org
+createTimestamp: 20120604161324Z
+entryCSN: 20120604161324.034649Z#000000#000#000000
+modifiersName: cn=admin,dc=example,dc=org
+modifyTimestamp: 20120604161324Z
+

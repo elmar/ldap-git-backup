@@ -30,6 +30,7 @@ package LDAP::Utils;
 use Modern::Perl;
 use English qw( -no_match_vars);
 use Carp;
+use MIME::Base64;
 
 sub read_ldif {
     my ($ldif_cmd) = @_;
@@ -60,7 +61,43 @@ sub read_ldif_raw {
     return $ldif_aref;
 }
 
+sub dn {
+    my ($ldif) = @_;
 
+    for my $line (split("\n", $ldif)) {
+        next unless $line =~ m{\A dn:}xms;
+        my $dn;
+        if ( $line =~ m{\A dn::}xms ) {
+            $dn = ( split(':: ', $line, 2) )[1];
+            $dn = decode_base64($dn);
+        }
+        else {
+            $dn = ( split(': ', $line, 2) )[1];
+        }
+        return canonicalize_dn($dn);
+    }
+
+    return '';
+}
+
+sub canonicalize_dn {
+    my ($dn) = @_;
+
+    my @rdns = split(',', $dn);
+    @rdns = map { canonicalize_rdn($_) } @rdns;
+    return join(',', @rdns);
+}
+
+sub canonicalize_rdn {
+    my ($rdn) = @_;
+
+    my ($key, $value) = split('=', $rdn, 2);
+    $key   =~ s{\A\s+}{}xms;
+    $key   =~ s{\s+\Z}{}xms;
+    $value =~ s{\A\s+}{}xms;
+    $value =~ s{\s+\Z}{}xms;
+    return lc($key) . '=' . lc($value);
+}
 
 __END__
 
