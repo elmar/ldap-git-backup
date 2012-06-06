@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
 # vim: set filetype=perl :
 use Modern::Perl;
 use English qw( -no_match_vars);
@@ -23,8 +23,6 @@ sub main {
 
     my $ldif_aref = LDAP::Utils::read_ldif($ldif_cmd);
 }
-
-1;
 
 package LDAP::Utils;
 use Modern::Perl;
@@ -98,6 +96,8 @@ sub canonicalize_rdn {
     $value =~ s{\s+\Z}{}xms;
     return lc($key) . '=' . lc($value);
 }
+
+1;
 
 __END__
 
