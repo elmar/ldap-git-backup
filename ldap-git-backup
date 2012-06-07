@@ -28,6 +28,7 @@ package LDAP::Utils;
 use Modern::Perl;
 use English qw( -no_match_vars);
 use Carp;
+use autodie;
 use MIME::Base64;
 
 sub read_ldif {
