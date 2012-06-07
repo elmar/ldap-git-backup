@@ -61,17 +61,11 @@ sub read_ldif_raw {
 
 sub dn {
     my ($ldif) = @_;
+    $ldif =~ s{\n }{}gs; # combine multiline attributes
 
     for my $line (split("\n", $ldif)) {
-        next unless $line =~ m{\A dn:}xms;
-        my $dn;
-        if ( $line =~ m{\A dn::}xms ) {
-            $dn = ( split(':: ', $line, 2) )[1];
-            $dn = decode_base64($dn);
-        }
-        else {
-            $dn = ( split(': ', $line, 2) )[1];
-        }
+        next unless $line =~ m{\A dn:}xmsi;
+        my $dn = get_value_from_attribute($line);
         return canonicalize_dn($dn);
     }
 
@@ -95,6 +89,31 @@ sub canonicalize_rdn {
     $value =~ s{\A\s+}{}xms;
     $value =~ s{\s+\Z}{}xms;
     return lc($key) . '=' . lc($value);
+}
+
+sub timestamp {
+    my ($ldif) = @_;
+    $ldif =~ s{\n }{}gs; # combine multiline attributes
+
+    for my $line (split("\n", $ldif)) {
+        next unless $line =~ m{\A createtimestamp:}xmsi;
+        return get_value_from_attribute($line);
+    }
+    return '00000000000000Z';
+}
+
+sub get_value_from_attribute {
+    my ($attribute) = @_;
+
+    my $value;
+    if ( $attribute =~ m{\A [^:]+ ::}xms ) {
+        $value = ( split(':: ', $attribute, 2) )[1];
+        $value = decode_base64($value);
+    }
+    else {
+        $value = ( split(': ', $attribute, 2) )[1];
+        }
+    return $value;
 }
 
 1;

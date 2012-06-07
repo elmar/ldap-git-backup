@@ -4,7 +4,7 @@ objectClass: organizationalUnit
 structuralObjectClass: organizationalUnit
 entryUUID: fadc662a-42ab-1031-93e5-178d19843e83
 creatorsName: cn=admin,dc=example,dc=org
-createTimestamp: 20120604161334Z
+createTimestamp:: MjAxMjA2MDQxNjEzMzRa
 entryCSN: 20120604161334.941084Z#000000#000#000000
 modifiersName: cn=admin,dc=example,dc=org
 modifyTimestamp: 20120604161334Z
