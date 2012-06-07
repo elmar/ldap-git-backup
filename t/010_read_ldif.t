@@ -1,4 +1,4 @@
-#!perl
+#!/usr/bin/env perl
 use Modern::Perl;
 use English qw( -no_match_vars );
 
