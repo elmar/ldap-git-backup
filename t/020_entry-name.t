@@ -33,6 +33,11 @@ for my $test_case (
         dn        => 'ou=people,dc=example,dc=org',
         timestamp => '20120604161334Z',
     },
+    {
+        file      => 'entry_group',
+        dn        => 'ou=group,dc=example,dc=org',
+        timestamp => '20120604161324Z',
+    },
 ) {
     my $ldif = read_first_ldif($test_case->{file});
     is(LDAP::Utils::dn($ldif), $test_case->{dn}, 'DN for test entry');
