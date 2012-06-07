@@ -7,16 +7,36 @@ use Test::More;
 my $BASE = '.';
 require "$BASE/ldap-git-backup";
 
-for my $test_case (qw(
-    entry_people
-    entry_people_upcase
-    entry_people_space
-    entry_people_base64
-    entry_people_base64_multiline
-)) {
-    my $ldif = read_first_ldif($test_case);
-    is(LDAP::Utils::dn($ldif), 'ou=people,dc=example,dc=org', 'DN for people entry');
-    is(LDAP::Utils::timestamp($ldif), '20120604161334Z', 'createTimeStamp for people entry');
+for my $test_case (
+    {
+        file      => 'entry_people',
+        dn        => 'ou=people,dc=example,dc=org',
+        timestamp => '20120604161334Z',
+    },
+    {
+        file      => 'entry_people_upcase',
+        dn        => 'ou=people,dc=example,dc=org',
+        timestamp => '20120604161334Z',
+    },
+    {
+        file      => 'entry_people_space',
+        dn        => 'ou=people,dc=example,dc=org',
+        timestamp => '20120604161334Z',
+    },
+    {
+        file      => 'entry_people_base64',
+        dn        => 'ou=people,dc=example,dc=org',
+        timestamp => '20120604161334Z',
+    },
+    {
+        file      => 'entry_people_base64_multiline',
+        dn        => 'ou=people,dc=example,dc=org',
+        timestamp => '20120604161334Z',
+    },
+) {
+    my $ldif = read_first_ldif($test_case->{file});
+    is(LDAP::Utils::dn($ldif), $test_case->{dn}, 'DN for test entry');
+    is(LDAP::Utils::timestamp($ldif), $test_case->{timestamp}, 'createTimeStamp for test entry');
 }
 
 done_testing();
