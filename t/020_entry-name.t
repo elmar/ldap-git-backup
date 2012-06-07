@@ -12,36 +12,43 @@ for my $test_case (
         file      => 'entry_people',
         dn        => 'ou=people,dc=example,dc=org',
         timestamp => '20120604161334Z',
+        filename  => '20120604161334Z-e2a09bd.ldif',
     },
     {
         file      => 'entry_people_upcase',
         dn        => 'ou=people,dc=example,dc=org',
         timestamp => '20120604161334Z',
+        filename  => '20120604161334Z-e2a09bd-1.ldif',
     },
     {
         file      => 'entry_people_space',
         dn        => 'ou=people,dc=example,dc=org',
         timestamp => '20120604161334Z',
+        filename  => '20120604161334Z-e2a09bd-2.ldif',
     },
     {
         file      => 'entry_people_base64',
         dn        => 'ou=people,dc=example,dc=org',
         timestamp => '20120604161334Z',
+        filename  => '20120604161334Z-e2a09bd-3.ldif',
     },
     {
         file      => 'entry_people_base64_multiline',
         dn        => 'ou=people,dc=example,dc=org',
         timestamp => '20120604161334Z',
+        filename  => '20120604161334Z-e2a09bd-4.ldif',
     },
     {
         file      => 'entry_group',
         dn        => 'ou=group,dc=example,dc=org',
         timestamp => '20120604161324Z',
+        filename  => '20120604161324Z-7ebb002.ldif',
     },
 ) {
     my $ldif = read_first_ldif($test_case->{file});
     is(LDAP::Utils::dn($ldif), $test_case->{dn}, 'DN for test entry');
     is(LDAP::Utils::timestamp($ldif), $test_case->{timestamp}, 'createTimeStamp for test entry');
+    is(LDAP::Utils::filename($ldif), $test_case->{filename}, 'filename for test entry');
 }
 
 done_testing();

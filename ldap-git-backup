@@ -59,6 +59,23 @@ sub read_ldif_raw {
     return $ldif_aref;
 }
 
+our %filename_list = ();
+sub filename {
+    my ($ldif) = @_;
+
+    use Digest::MD5 qw( md5_hex );
+    my $filename = timestamp($ldif) . '-' . substr(md5_hex(dn($ldif)), 0, 7);
+    if (defined($filename_list{$filename})) {
+        $filename_list{$filename} += 1;
+        $filename .= '-' . $filename_list{$filename};
+    }
+    else {
+        $filename_list{$filename} = 0;
+    }
+
+    return $filename . '.ldif';
+}
+
 sub dn {
     my ($ldif) = @_;
     $ldif =~ s{\n }{}gs; # combine multiline attributes
