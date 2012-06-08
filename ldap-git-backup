@@ -21,6 +21,7 @@ sub main {
     pod2usage('-verbose' => 2, '-exit_status' => 0) if $help;
     pod2usage() if @ARGV;
 
+    mkdir $backup_dir;
     my $ldif_aref = LDAP::Utils::read_ldif($ldif_cmd);
 }
 
