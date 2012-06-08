@@ -4,6 +4,8 @@ use English qw( -no_match_vars );
 use autodie;
 
 use Test::More;
+require './t/test-helper.pm';
+Test::Helper->import();
 
 use Git;
 use File::Temp qw( tempdir );
@@ -12,6 +14,7 @@ use File::Temp qw( tempdir );
 # consecutive LDIF backups on the new GIT repo
 
 my $BASE = '.';
+
 my $tmpdir = tempdir( CLEANUP => 1 );
 my $backup_dir = "$tmpdir/backup-$PID";
 
@@ -64,17 +67,3 @@ is( @revs, 2, 'should have two GIT revisions' );
 
 # clean up test data
 done_testing();
-
-exit 0;
-
-sub check_directory_list {
-    my ($dir, @filelist) = @_;
-
-    opendir(my $dir_handle, $dir);
-    my @file_list_actual = sort readdir($dir_handle);
-    closedir($dir_handle);
-    my @file_list_reference = sort @filelist;
-    is_deeply( \@file_list_actual, \@file_list_reference, 'check file list for completeness' );
-
-    return;
-}
