@@ -1,0 +1,88 @@
+dn: dc=example,dc=org
+objectClass: top
+objectClass: dcObject
+objectClass: organization
+o: example.org
+dc: example
+structuralObjectClass: organization
+entryUUID: e736079e-42a5-1031-9a5e-2f99edb5280b
+creatorsName: cn=admin,dc=example,dc=org
+createTimestamp: 20120604153004Z
+entryCSN: 20120604153004.993688Z#000000#000#000000
+modifiersName: cn=admin,dc=example,dc=org
+modifyTimestamp: 20120604153004Z
+
+dn: cn=admin,dc=example,dc=org
+objectClass: simpleSecurityObject
+objectClass: organizationalRole
+cn: admin
+description: LDAP administrator
+userPassword:: e1NTSEF9bmh4R0JQMUhudzlRS1NVSEpyREgzRDU5WUFCdlZSRGk=
+structuralObjectClass: organizationalRole
+entryUUID: e7369524-42a5-1031-9a5f-2f99edb5280b
+creatorsName: cn=admin,dc=example,dc=org
+createTimestamp: 20120604153004Z
+entryCSN: 20120604153004.997311Z#000000#000#000000
+modifiersName: cn=admin,dc=example,dc=org
+modifyTimestamp: 20120604153004Z
+
+dn: ou=Group,dc=example,dc=org
+ou: group
+objectClass: organizationalUnit
+structuralObjectClass: organizationalUnit
+entryUUID: f45c35aa-42ab-1031-93e4-178d19843e83
+creatorsName: cn=admin,dc=example,dc=org
+createTimestamp: 20120604161324Z
+entryCSN: 20120604161324.034649Z#000000#000#000000
+modifiersName: cn=admin,dc=example,dc=org
+modifyTimestamp: 20120604161324Z
+
+dn: ou=People,dc=example,dc=org
+ou: people
+objectClass: organizationalUnit
+structuralObjectClass: organizationalUnit
+entryUUID: fadc662a-42ab-1031-93e5-178d19843e83
+creatorsName: cn=admin,dc=example,dc=org
+createTimestamp: 20120604161334Z
+entryCSN: 20120604161334.941084Z#000000#000#000000
+modifiersName: cn=admin,dc=example,dc=org
+modifyTimestamp: 20120604161334Z
+
+dn: cn=bob,ou=People,dc=example,dc=org
+objectClass: inetOrgPerson
+givenName: Robert
+sn: Jones
+cn: bob
+cn: Robert Jones
+cn: Bob Jones
+uid: bob
+userPassword:: ZG8tbm90LXRlbGw=
+mail: bob@example.org
+mail: robert.jones@example.org
+structuralObjectClass: inetOrgPerson
+entryUUID: 7d41bf46-45c9-1031-90c3-550bee850214
+creatorsName: cn=admin,dc=example,dc=org
+createTimestamp: 20120608152222Z
+entryCSN: 20120608152222.602574Z#000000#000#000000
+modifiersName: cn=admin,dc=example,dc=org
+modifyTimestamp: 20120608152222Z
+
+dn: cn=joe,ou=People,dc=example,dc=org
+objectClass: inetOrgPerson
+givenName: Joseph
+sn: Smith
+cn: joe
+cn: Joseph Smith
+cn: Joe Smith
+uid: joe
+userPassword:: c3VwZXItc2VjcmV0
+structuralObjectClass: inetOrgPerson
+entryUUID: e1a200b8-45c9-1031-90c4-550bee850214
+creatorsName: cn=admin,dc=example,dc=org
+createTimestamp: 20120608152511Z
+mail: joe@example.org
+mail: joseph.smith@example.org
+entryCSN: 20120608165814.065927Z#000000#000#000000
+modifiersName: cn=admin,dc=example,dc=org
+modifyTimestamp: 20120608165814Z
+
