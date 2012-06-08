@@ -30,6 +30,27 @@ sub main {
     Git::command('init');
     my $repo = Git->repository(Directory => $backup_dir);
 
+    git_clean_old_entries($backup_dir, $repo);
+    git_add_ldif_entries($ldif_aref, $backup_dir, $repo);
+    $repo->command('commit', '--message=ldap-git-backup');
+}
+
+sub git_clean_old_entries {
+    my ($backup_dir, $repo) = @_;
+
+    opendir(my $dir_handle, $backup_dir);
+    FILE:
+    for my $file (readdir($dir_handle)) {
+        next FILE unless $file =~ m{ \.ldif \Z }xms;
+        $repo->command('rm', $file);
+    }
+
+    return;
+}
+
+sub git_add_ldif_entries {
+    my ($ldif_aref, $backup_dir, $repo) = @_;
+
     for my $ldif (@$ldif_aref) {
         my $filename = LDAP::Utils::filename($ldif);
         open(my $fh, '>', "$backup_dir/$filename");
@@ -37,7 +58,8 @@ sub main {
         close($fh);
         $repo->command('add', $filename);
     }
-    $repo->command('commit', '--message=ldap-git-backup');
+
+    return;
 }
 
 package LDAP::Utils;
