@@ -4,11 +4,13 @@ use English qw( -no_match_vars );
 
 use Test::More;
 
+use Git;
+
 # start with a non-existing directory and create two
 # consecutive LDIF backups on the new GIT repo
 
 my $BASE = '.';
-my $backup_dir = "$BASE/t/backup-$PID";
+my $backup_dir = "/tmp/ldap-git-backup/backup-$PID";
 
 ok( (not -e $backup_dir), 'backup directory should not exist at first' );
 ok(
@@ -20,7 +22,8 @@ ok(
     'first backup should run'
 );
 ok( (-d $backup_dir), 'backup directory should have been created' );
+ok( (-d "$backup_dir/.git"), 'backup directory should be a GIT repository now');
+my $repo = Git->repository( Directory => $backup_dir );
 
-ok(1);
 
 done_testing();

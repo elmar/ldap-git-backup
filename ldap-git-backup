@@ -9,6 +9,8 @@ main() unless caller(0);
 sub main {
     use Pod::Usage;
     use Getopt::Long;
+    use File::Path qw( make_path );
+    use Git;
 
     my $ldif_cmd = '/usr/sbin/slapcat';
     my $backup_dir = '/var/backup/ldap';
@@ -21,8 +23,10 @@ sub main {
     pod2usage('-verbose' => 2, '-exit_status' => 0) if $help;
     pod2usage() if @ARGV;
 
-    mkdir $backup_dir;
     my $ldif_aref = LDAP::Utils::read_ldif($ldif_cmd);
+    make_path($backup_dir);
+    chdir($backup_dir);
+    Git::command('init');
 }
 
 package LDAP::Utils;
