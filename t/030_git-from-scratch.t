@@ -6,13 +6,14 @@ use autodie;
 use Test::More;
 
 use Git;
-use File::Path qw( remove_tree );
+use File::Temp qw( tempdir );
 
 # start with a non-existing directory and create two
 # consecutive LDIF backups on the new GIT repo
 
 my $BASE = '.';
-my $backup_dir = "/tmp/ldap-git-backup/backup-$PID";
+my $tmpdir = tempdir( CLEANUP => 1 );
+my $backup_dir = "$tmpdir/backup-$PID";
 
 ok( (not -e $backup_dir), 'backup directory should not exist at first' );
 
@@ -62,7 +63,6 @@ check_directory_list($backup_dir, qw(
 is( @revs, 2, 'should have two GIT revisions' );
 
 # clean up test data
-remove_tree($backup_dir);
 done_testing();
 
 exit 0;
