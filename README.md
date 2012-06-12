@@ -17,7 +17,7 @@ backups.
 
 How do you back up your LDAP data?  Typically, you run a cron job once per day
 to dump all LDAP entries into a LDIF file then compress this file and keep a
-few generation.  With OpenLDAP the command to use is <code>slapcat</code>.
+few generations.  With OpenLDAP the command to use is <code>slapcat</code>.
 Since LDAP usually contains a lot of similar entries the compression is quite
 good and you can keep a few backups with space requirements comparable to the
 LDAP database itself.  When disaster strikes you take the most recent backup
