@@ -11,7 +11,7 @@ use File::Temp qw( tempdir );
 
 my $BASE = '.';
 
-my $backup_dir = tempdir( CLEANUP => 0 );
+my $backup_dir = tempdir( CLEANUP => 1 );
 # ----- first backup -----
 ok(
     system(
