@@ -219,6 +219,16 @@ database.  By default /usr/sbin/slapcat from OpenLDAP is taken.
 Specify the directory where the GIT repository for the versioned backup is held.
 Default: /var/backup/ldap
 
+=item B<--commit-msg E<lt>commit_stringE<gt>>
+
+Specify a custom commit message.  Default: ldap-git-backup
+
+=item B<--commit-date E<lt>date_stringE<gt>>
+
+=item B<--commit-date E<lt>fileE<gt>>
+
+Specify a custom commit date.  If a file is given its modification time is used.
+
 =item B<--help>
 
 Prints this page.
