@@ -1,6 +1,7 @@
 *~
 .*.sw?
 /ldap-git-backup
+/ldap-git-backup.1
 /t/*.t
 /t/test-helper.pm
 /aclocal.m4
