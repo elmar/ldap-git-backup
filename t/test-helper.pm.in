@@ -1,7 +1,7 @@
 #!perl
 package Test::Helper;
 
-use Modern::Perl;
+@PERL_PREAMBLE@
 use English qw( -no_match_vars );
 use autodie;
 

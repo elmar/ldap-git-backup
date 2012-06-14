@@ -2,6 +2,7 @@
 .*.sw?
 /ldap-git-backup
 /t/*.t
+/t/test-helper.pm
 /aclocal.m4
 /autom4te.cache
 /build-aux/install-sh
