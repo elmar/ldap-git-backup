@@ -44,7 +44,7 @@ ok(
     'second backup with file timestamp as commit time'
 );
 
-my $filetimestamp = gmtime(stat("$BASE/t/testdata/data_C2.ldif")->ctime());
+my $filetimestamp = gmtime(stat("$BASE/t/testdata/data_C2.ldif")->mtime());
 $filetimestamp =~ s{  }{ };  # git prints only one space for one-digit days
 @logs = $repo->command('log', '-1');
 is($logs[2], qq{Date:   $filetimestamp +0000}, 'git log has the commit time from the file timestamp');

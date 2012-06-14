@@ -30,7 +30,7 @@ sub main {
     pod2usage() if @ARGV;
 
     if ( -e $commit_date ) {
-        $commit_date = stat($commit_date)->ctime();
+        $commit_date = stat($commit_date)->mtime();
     }
 
     my $ldif_aref = LDAP::Utils::read_ldif($ldif_cmd);
