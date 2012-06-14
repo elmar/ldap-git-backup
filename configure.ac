@@ -1,4 +1,4 @@
-AC_PREREQ([2.69])
+AC_PREREQ([2.67])dnl require version in Debian squeeze
 AC_INIT([LDAP Git Backup],
         [1.0],
         [elmar@heebs.ch],
