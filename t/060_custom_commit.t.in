@@ -1,0 +1,52 @@
+#!/usr/bin/env perl
+@PERL_PREAMBLE@
+use English qw( -no_match_vars );
+
+use Test::More;
+use File::stat;
+use File::Temp qw( tempdir );
+use Git;
+
+my $BASE = '.';
+
+my $backup_dir = tempdir( CLEANUP => 1 );
+my $now_string = gmtime;
+$ENV{TZ} = 'UTC';  # choose the time zone for our test
+
+# ----- first backup -----
+ok(
+    system(
+        'perl',
+        "$BASE/ldap-git-backup",
+        "--ldif-cmd=cat $BASE/t/testdata/data_C1.ldif",
+        "--backup-dir=$backup_dir",
+        '--commit-msg=foo bar',
+        "--commit-date=$now_string",
+    ) == 0,
+    'first backup with custom log message and time'
+);
+
+my $repo = Git->repository( Directory => $backup_dir );
+my @logs = $repo->command('log', '-1');
+is($logs[4], q{    foo bar}, 'git log has the custom log message');
+is($logs[2], qq{Date:   $now_string +0000}, 'git log has the custom commit time');
+
+# ----- second backup / with file timestamp -----
+ok(
+    system(
+        'perl',
+        "$BASE/ldap-git-backup",
+        "--ldif-cmd=cat $BASE/t/testdata/data_C2.ldif",
+        "--backup-dir=$backup_dir",
+        '--commit-msg=foo bar',
+        "--commit-date=$BASE/t/testdata/data_C2.ldif",
+    ) == 0,
+    'second backup with file timestamp as commit time'
+);
+
+my $filetimestamp = gmtime(stat("$BASE/t/testdata/data_C2.ldif")->ctime());
+$filetimestamp =~ s{  }{ };  # git prints only one space for one-digit days
+@logs = $repo->command('log', '-1');
+is($logs[2], qq{Date:   $filetimestamp +0000}, 'git log has the commit time from the file timestamp');
+
+done_testing();

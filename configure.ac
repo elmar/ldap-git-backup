@@ -21,5 +21,6 @@ AC_CONFIG_FILES([Makefile
                  t/030_git-from-scratch.t
                  t/040_delete-entry.t
                  t/050_modify-entry.t
+                 t/060_custom_commit.t
                  ])
 AC_OUTPUT

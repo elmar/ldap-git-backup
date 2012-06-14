@@ -4,25 +4,34 @@
 use English qw( -no_match_vars);
 use Carp;
 use autodie;
+use File::stat;
 
 main() unless caller(0);
 
 sub main {
     use Pod::Usage;
-    use Getopt::Long;
+    use Getopt::Long qw( :config auto_help pass_through );
     use File::Path qw( make_path );
     use Git;
 
-    my $ldif_cmd = '/usr/sbin/slapcat';
-    my $backup_dir = '/var/backup/ldap';
+    my $ldif_cmd    = '/usr/sbin/slapcat';
+    my $backup_dir  = '/var/backup/ldap';
+    my $commit_msg  = 'ldap-git-backup';
+    my $commit_date = time();
     my $help;
     GetOptions(
-        'ldif-cmd=s'   => \$ldif_cmd,
-        'backup-dir=s' => \$backup_dir,
-        'help'         => \$help,
+        'ldif-cmd=s'    => \$ldif_cmd,
+        'backup-dir=s'  => \$backup_dir,
+        'commit-msg=s'  => \$commit_msg,
+        'commit-date=s' => \$commit_date,
+        'help'          => \$help,
     );
     pod2usage('-verbose' => 2, '-exit_status' => 0) if $help;
     pod2usage() if @ARGV;
+
+    if ( -e $commit_date ) {
+        $commit_date = stat($commit_date)->ctime();
+    }
 
     my $ldif_aref = LDAP::Utils::read_ldif($ldif_cmd);
     make_path($backup_dir);
@@ -32,7 +41,7 @@ sub main {
 
     git_clean_old_entries($backup_dir, $repo);
     git_add_ldif_entries($ldif_aref, $backup_dir, $repo);
-    $repo->command('commit', '--message=ldap-git-backup');
+    $repo->command('commit', "--message=$commit_msg", "--date=$commit_date");
 }
 
 sub git_clean_old_entries {
