@@ -1,5 +1,7 @@
 *~
 .*.sw?
+/ldap-git-backup
+/t/*.t
 /aclocal.m4
 /autom4te.cache
 /build-aux/install-sh

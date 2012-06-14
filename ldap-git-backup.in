@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 # vim: set filetype=perl :
-use Modern::Perl;
+@PERL_PREAMBLE@
 use English qw( -no_match_vars);
 use Carp;
 use autodie;
@@ -63,7 +63,7 @@ sub git_add_ldif_entries {
 }
 
 package LDAP::Utils;
-use Modern::Perl;
+@PERL_PREAMBLE@
 use English qw( -no_match_vars);
 use Carp;
 use autodie;

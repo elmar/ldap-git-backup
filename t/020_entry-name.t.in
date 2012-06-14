@@ -1,5 +1,5 @@
 #!/usr/bin/env perl
-use Modern::Perl;
+@PERL_PREAMBLE@
 use English qw( -no_match_vars );
 
 use Test::More;

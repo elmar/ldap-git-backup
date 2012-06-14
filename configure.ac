@@ -5,6 +5,21 @@ AC_INIT([LDAP Git Backup],
         [ldap-git-backup],
         [https://github.com/elmar/ldap-git-backup])
 AC_CONFIG_AUX_DIR([build-aux])
+
+m4_include([m4/ax_prog_perl_modules.m4])
+AX_PROG_PERL_MODULES([Modern::Perl],
+                     [AC_SUBST([PERL_PREAMBLE], ['use Modern::Perl;'])],
+                     [AC_SUBST([PERL_PREAMBLE], ['use strict; use warnings; use 5.010;'])]
+                     )
+
 AM_INIT_AUTOMAKE([foreign -Wall -Werror])
-AC_CONFIG_FILES([Makefile])
+AC_CONFIG_FILES([Makefile
+                 ldap-git-backup
+                 t/001_help-option.t
+                 t/010_read_ldif.t
+                 t/020_entry-name.t
+                 t/030_git-from-scratch.t
+                 t/040_delete-entry.t
+                 t/050_modify-entry.t
+                 ])
 AC_OUTPUT
