@@ -1,5 +1,14 @@
 *~
 .*.sw?
+/aclocal.m4
+/autom4te.cache
+/build-aux/install-sh
+/build-aux/missing
+/config.log
+/config.status
+/configure
+/Makefile.in
+/ldap-git-backup-*.tar.gz
 blib/
 .build/
 _build/
