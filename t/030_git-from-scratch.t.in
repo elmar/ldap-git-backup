@@ -23,6 +23,7 @@ ok( (not -e $backup_dir), 'backup directory should not exist at first' );
 # ----- first backup -----
 ok(
     system(
+        'perl',
         "$BASE/ldap-git-backup",
         "--ldif-cmd=cat $BASE/t/testdata/data_A1.ldif",
         "--backup-dir=$backup_dir",
@@ -47,6 +48,7 @@ is( @revs, 1, 'should have one GIT revision' );
 # ----- second backup -----
 ok(
     system(
+        'perl',
         "$BASE/ldap-git-backup",
         "--ldif-cmd=cat $BASE/t/testdata/data_A2.ldif",
         "--backup-dir=$backup_dir",

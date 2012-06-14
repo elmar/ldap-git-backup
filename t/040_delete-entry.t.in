@@ -15,6 +15,7 @@ my $backup_dir = tempdir( CLEANUP => 1 );
 # ----- first backup -----
 ok(
     system(
+        'perl',
         "$BASE/ldap-git-backup",
         "--ldif-cmd=cat $BASE/t/testdata/data_B1.ldif",
         "--backup-dir=$backup_dir",
@@ -36,6 +37,7 @@ check_directory_list($backup_dir, qw(
 # ----- second backup -----
 ok(
     system(
+        'perl',
         "$BASE/ldap-git-backup",
         "--ldif-cmd=cat $BASE/t/testdata/data_B2.ldif",
         "--backup-dir=$backup_dir",

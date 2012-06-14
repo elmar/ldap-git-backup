@@ -6,6 +6,6 @@ use Test::More;
 
 my $BASE = '.';
 
-ok(system("$BASE/ldap-git-backup", '--help') == 0, 'option --help should be allowed');
+ok(system('perl', "$BASE/ldap-git-backup", '--help') == 0, 'option --help should be allowed');
 
 done_testing();
