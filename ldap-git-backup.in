@@ -47,12 +47,14 @@ sub main {
 sub git_clean_old_entries {
     my ($backup_dir, $repo) = @_;
 
+    my @filelist = ();
     opendir(my $dir_handle, $backup_dir);
     FILE:
     for my $file (readdir($dir_handle)) {
         next FILE unless $file =~ m{ \.ldif \Z }xms;
-        $repo->command('rm', $file);
+        push(@filelist, $file);
     }
+    $repo->command('rm', @filelist) if @filelist;
 
     return;
 }
@@ -60,13 +62,15 @@ sub git_clean_old_entries {
 sub git_add_ldif_entries {
     my ($ldif_aref, $backup_dir, $repo) = @_;
 
+    my @filelist = ();
     for my $ldif (@$ldif_aref) {
         my $filename = LDAP::Utils::filename($ldif);
         open(my $fh, '>', "$backup_dir/$filename");
         print {$fh} $ldif;
         close($fh);
-        $repo->command('add', $filename);
+        push(@filelist, $filename);
     }
+    $repo->command('add', @filelist) if @filelist;
 
     return;
 }
