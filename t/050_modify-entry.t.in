@@ -3,13 +3,14 @@
 use English qw( -no_match_vars );
 
 use Test::More;
-require './t/test-helper.pm';
+use Cwd qw( abs_path );
+my $BASE = abs_path("$0/../..");
+
+require "$BASE/t/test-helper.pm";
 Test::Helper->import();
 
 use Git;
 use File::Temp qw( tempdir );
-
-my $BASE = '.';
 
 my $backup_dir = tempdir( CLEANUP => 1 );
 # ----- first backup -----

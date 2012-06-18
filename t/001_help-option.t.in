@@ -3,8 +3,8 @@
 use English qw( -no_match_vars );
 
 use Test::More;
-
-my $BASE = '.';
+use Cwd qw( abs_path );
+my $BASE = abs_path("$0/../..");
 
 ok(system('perl', "$BASE/ldap-git-backup", '--help') == 0, 'option --help should be allowed');
 

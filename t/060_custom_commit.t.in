@@ -3,11 +3,12 @@
 use English qw( -no_match_vars );
 
 use Test::More;
+use Cwd qw( abs_path );
+my $BASE = abs_path("$0/../..");
+
 use File::stat;
 use File::Temp qw( tempdir );
 use Git;
-
-my $BASE = '.';
 
 my $backup_dir = tempdir( CLEANUP => 1 );
 my $now_string = gmtime;

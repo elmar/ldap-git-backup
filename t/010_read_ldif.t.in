@@ -3,8 +3,9 @@
 use English qw( -no_match_vars );
 
 use Test::More;
+use Cwd qw( abs_path );
+my $BASE = abs_path("$0/../..");
 
-my $BASE = '.';
 require "$BASE/ldap-git-backup";
 
 my $ldif_cmd  = "cat $BASE/t/testdata/data_A1.ldif";

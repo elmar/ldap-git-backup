@@ -4,7 +4,10 @@ use English qw( -no_match_vars );
 use autodie;
 
 use Test::More;
-require './t/test-helper.pm';
+use Cwd qw( abs_path );
+my $BASE = abs_path("$0/../..");
+
+require "$BASE/t/test-helper.pm";
 Test::Helper->import();
 
 use Git;
@@ -12,8 +15,6 @@ use File::Temp qw( tempdir );
 
 # start with a non-existing directory and create two
 # consecutive LDIF backups on the new GIT repo
-
-my $BASE = '.';
 
 my $tmpdir = tempdir( CLEANUP => 1 );
 my $backup_dir = "$tmpdir/backup-$PID";
