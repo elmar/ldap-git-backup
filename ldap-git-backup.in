@@ -14,7 +14,7 @@ sub main {
     use File::Path qw( make_path );
     use Git;
 
-    my $ldif_cmd    = '/usr/sbin/slapcat';
+    my $ldif_cmd    = '@bindir@/safe-ldif';
     my $backup_dir  = '/var/backup/ldap';
     my $commit_msg  = 'ldap-git-backup';
     my $commit_date = time();
