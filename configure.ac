@@ -15,6 +15,7 @@ AX_PROG_PERL_MODULES([Modern::Perl],
 AM_INIT_AUTOMAKE([foreign -Wall -Werror])
 AC_CONFIG_FILES([Makefile
                  ldap-git-backup
+                 safe-ldif
                  t/test-helper.pm
                  t/mock-slapcat
                  t/001_help-option.t
@@ -25,5 +26,6 @@ AC_CONFIG_FILES([Makefile
                  t/050_modify-entry.t
                  t/060_custom_commit.t
                  t/070_mock-slapcat.t
+                 t/071_safe-ldif.t
                  ])
 AC_OUTPUT

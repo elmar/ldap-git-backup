@@ -1,0 +1,38 @@
+#!/usr/bin/env perl
+@PERL_PREAMBLE@
+use English qw( -no_match_vars );
+use autodie;
+
+use Test::More;
+use Cwd qw( abs_path );
+my $BASE = abs_path("$0/../..");
+
+use File::Temp qw( tempdir );
+my $TEMPDIR = tempdir( CLEANUP => 1 );
+use File::Path qw( make_path );
+make_path($TEMPDIR);
+
+ok(system('perl', "$BASE/t/mock-slapcat", "--tempdir=$TEMPDIR", '--reset-count') == 0, 'resetting mock counter');
+my $counter   = slurp_from_cmd("perl $BASE/t/mock-slapcat --tempdir=$TEMPDIR --show-count");
+chomp($counter);
+is($counter, 0, 'counter should be zero initially');
+
+my $reference = slurp_from_cmd("cat $BASE/t/testdata/data1.ldif");
+my $data      = slurp_from_cmd("perl $BASE/safe-ldif --ldif-cmd=\"$BASE/t/mock-slapcat --tempdir=$TEMPDIR\"");
+$counter      = slurp_from_cmd("perl $BASE/t/mock-slapcat --tempdir=$TEMPDIR --show-count");
+chomp($counter);
+
+is($data, $reference, 'LDIF data verification');
+is($counter, 3, 'counter should be two at the end');
+
+done_testing();
+
+sub slurp_from_cmd {
+    my ($cmd) = @_;
+
+    open(my $fh, '-|', $cmd);
+    my $data = do { local $RS; <$fh> };
+    close($fh);
+
+    return $data;
+}

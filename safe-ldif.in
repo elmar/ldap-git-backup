@@ -1,0 +1,87 @@
+#!/usr/bin/env perl
+# vim: set filetype=perl :
+@PERL_PREAMBLE@
+use English qw( -no_match_vars );
+use Carp;
+use autodie;
+
+use Pod::Usage;
+use Getopt::Long;
+
+my $ldif_cmd = '/usr/sbin/slapcat';
+my $help;
+GetOptions(
+    'ldif-cmd=s' => \$ldif_cmd,
+    'help'       => \$help,
+);
+pod2usage('-verbose' => 2, '-exit_status' => 0) if $help;
+
+print read_ldif($ldif_cmd);
+exit 0;
+
+sub read_ldif {
+    my ($ldif_cmd) = @_;
+
+    my $old_entry_count = -2;
+    my $new_entry_count = -1;
+    my $ldif = '';
+    until ($old_entry_count == $new_entry_count) {
+        $old_entry_count = $new_entry_count;
+        $ldif            = read_ldif_raw($ldif_cmd);
+        my @ldifs        = split("\n\n", $ldif);
+        $new_entry_count = @ldifs;
+
+    }
+
+    return $ldif;
+}
+
+sub read_ldif_raw {
+    my ($ldif_cmd) = @_;
+
+    open my $in, '-|', $ldif_cmd;
+    my $ldif = do { local $RS ; <$in> };
+    close $in;
+
+    return $ldif;
+}
+
+__END__
+=head1 NAME
+
+safe-ldif - verify and dump an LDIF file for backup
+
+=head1 SYNOPSIS
+
+ldap-git-backup [--ldif-cmd=E<lt>/path/to/ldif-dumpE<gt>]
+
+ldap-git-backup --help
+
+=head1 DESCRIPTION
+
+Runs the command given by --ldif-cmd multiple times and returns the last output
+as soon as there are two consecutive invocations giving the same number of LDIF
+stanzas.
+
+=head1 OPTIONS
+
+=over 4
+
+=item B<--ldif-cmd E<lt>dump_ldif_commandE<gt>>
+
+Specify a command to create a complete LDIF dump of the LDAP directory suitable
+for a backup.  It should contain all entries necessary to restore the LDAP
+database.  By default /usr/sbin/slapcat from OpenLDAP is taken.
+
+=item B<--help>
+
+Prints this page.
+
+=back
+
+=head1 AUTHOR
+
+Elmar S. Heeb <elmar@heebs.ch>
+
+=cut
+

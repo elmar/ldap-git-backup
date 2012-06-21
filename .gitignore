@@ -2,6 +2,8 @@
 .*.sw?
 /ldap-git-backup
 /ldap-git-backup.1
+/safe-ldif
+/safe-ldif.1
 /t/*.t
 /t/test-helper.pm
 /t/mock-slapcat
