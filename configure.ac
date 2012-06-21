@@ -16,6 +16,7 @@ AM_INIT_AUTOMAKE([foreign -Wall -Werror])
 AC_CONFIG_FILES([Makefile
                  ldap-git-backup
                  t/test-helper.pm
+                 t/mock-slapcat
                  t/001_help-option.t
                  t/010_read_ldif.t
                  t/020_entry-name.t
@@ -23,5 +24,6 @@ AC_CONFIG_FILES([Makefile
                  t/040_delete-entry.t
                  t/050_modify-entry.t
                  t/060_custom_commit.t
+                 t/070_mock-slapcat.t
                  ])
 AC_OUTPUT

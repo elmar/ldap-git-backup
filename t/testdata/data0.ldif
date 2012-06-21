@@ -1,0 +1,28 @@
+dn: dc=example,dc=org
+objectClass: top
+objectClass: dcObject
+objectClass: organization
+o: example.org
+dc: example
+structuralObjectClass: organization
+entryUUID: e736079e-42a5-1031-9a5e-2f99edb5280b
+creatorsName: cn=admin,dc=example,dc=org
+createTimestamp: 20120604153004Z
+entryCSN: 20120604153004.993688Z#000000#000#000000
+modifiersName: cn=admin,dc=example,dc=org
+modifyTimestamp: 20120604153004Z
+
+dn: cn=admin,dc=example,dc=org
+objectClass: simpleSecurityObject
+objectClass: organizationalRole
+cn: admin
+description: LDAP administrator
+userPassword:: e1NTSEF9bmh4R0JQMUhudzlRS1NVSEpyREgzRDU5WUFCdlZSRGk=
+structuralObjectClass: organizationalRole
+entryUUID: e7369524-42a5-1031-9a5f-2f99edb5280b
+creatorsName: cn=admin,dc=example,dc=org
+createTimestamp: 20120604153004Z
+entryCSN: 20120604153004.997311Z#000000#000#000000
+modifiersName: cn=admin,dc=example,dc=org
+modifyTimestamp: 20120604153004Z
+

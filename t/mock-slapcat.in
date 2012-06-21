@@ -1,0 +1,77 @@
+#!/usr/bin/env perl
+# -*- perl -*-
+# vim: set filetype=perl :
+@PERL_PREAMBLE@
+use English qw( -no_match_vars );
+use autodie;
+use Carp;
+use Getopt::Long;
+
+use Cwd qw( abs_path );
+my $BASE = abs_path("$0/../..");
+
+use File::Path qw( make_path );
+use File::Temp qw( tempdir );
+my $tempdir;
+my $reset_count = 0;
+my $show_count  = 0;
+
+GetOptions(
+    'tempdir=s' => \$tempdir,
+    'reset-count' => \$reset_count,
+    'show-count'  => \$show_count,
+);
+
+croak 'you need to specify --tempdir' unless $tempdir;
+make_path($tempdir);
+
+if ($reset_count) {
+    write_count(0);
+    exit 0;
+}
+
+if ($show_count) {
+    say read_count();
+    exit 0;
+}
+
+my $count = read_count();
+my $ldif;
+if ($count < 1) {
+    open my $in, '<', "$BASE/t/testdata/data0.ldif";
+    $ldif = do { local $RS; <$in> };
+    close $in;
+}
+else {
+    open my $in, '<', "$BASE/t/testdata/data1.ldif";
+    $ldif = do { local $RS; <$in> };
+    close $in;
+}
+print $ldif;
+
+$count += 1;
+write_count($count);
+
+exit 0;
+
+
+sub write_count {
+    my ($count) = @_;
+
+    open my $out, '>', "$tempdir/count";
+    print {$out} $count;
+    close $out;
+
+    return;
+}
+
+sub read_count {
+    my $count = 0;
+    if (-f "$tempdir/count") {
+        open my $in, '<', "$tempdir/count";
+        $count = do { local $RS; <$in> };
+        close $in;
+        $count = 0 + $count;  # numeric coercion
+    }
+    return $count;
+}

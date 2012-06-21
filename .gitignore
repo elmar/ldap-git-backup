@@ -4,6 +4,7 @@
 /ldap-git-backup.1
 /t/*.t
 /t/test-helper.pm
+/t/mock-slapcat
 /aclocal.m4
 /autom4te.cache
 /build-aux/install-sh
