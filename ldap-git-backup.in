@@ -222,7 +222,7 @@ C</usr/sbin/slapcat> from OpenLDAP.
 =item B<--backup-dir E<lt>backup_directoryE<gt>>
 
 Specify the directory where the GIT repository for the versioned backup is held.
-Default: C</var/backup/ldap>
+Default: F</var/backup/ldap>
 
 =item B<--commit-msg E<lt>commit_stringE<gt>>
 
