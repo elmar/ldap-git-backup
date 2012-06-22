@@ -39,13 +39,7 @@ sub main {
     Git::command('init');
     my $repo = Git->repository(Directory => $backup_dir);
 
-    my @filelist = ();
-    opendir(my $dir_handle, $backup_dir);
-    FILE:
-    for my $file (readdir($dir_handle)) {
-        next FILE unless $file =~ m{ \.ldif \Z }xms;
-        push(@filelist, $file);
-    }
+    my @filelist = $repo->command('ls-files');
     $repo->command('rm', @filelist) if @filelist;
 
     @filelist = ();
