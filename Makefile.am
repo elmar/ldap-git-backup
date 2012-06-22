@@ -30,4 +30,4 @@ check-local: t/mock-slapcat
 	prove t
 
 clean-local:
-	rm ldap-git-backup safe-ldif t/mock-slapcat
+	rm -f ldap-git-backup safe-ldif t/mock-slapcat
