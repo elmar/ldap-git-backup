@@ -5,7 +5,10 @@ edit = sed \
 	   -e 's|@bindir[@]|$(bindir)|g' \
 	   -e 's|@PERL_PREAMBLE[@]|@PERL_PREAMBLE@|g'
 
-.1.in:
+ldap-git-backup.1: ldap-git-backup
+	pod2man -c 'User Commands' -r "$(VERSION)" $< $@
+
+safe-ldif.1: safe-ldif
 	pod2man -c 'User Commands' -r "$(VERSION)" $< $@
 
 safe-ldif: safe-ldif.in
