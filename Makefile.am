@@ -1,5 +1,18 @@
-bin_SCRIPTS = ldap-git-backup safe-ldif
-man_MANS    = ldap-git-backup.1 safe-ldif.1
+## Makefile.am
+## Process this file with automake to produce Makefile.in
+##
+ACLOCAL_AMFLAGS = -I m4 --install
+
+bin_SCRIPTS   = ldap-git-backup safe-ldif
+check_SCRIPTS = t/mock-slapcat
+man_MANS      = ldap-git-backup.1 safe-ldif.1
+
+CLEANFILES = $(bin_SCRIPTS) $(check_SCRIPTS) $(man_MANS)
+EXTRA_DIST = \
+	ldap-git-backup.in \
+	safe-ldif.in \
+	t/mock-slapcat.in \
+	t/testdata
 
 edit = sed \
 	   -e 's|@bindir[@]|$(bindir)|g' \
@@ -29,8 +42,5 @@ ldap-git-backup: ldap-git-backup.in
 	chmod a+x $@.tmp
 	mv $@.tmp $@
 
-check-local: t/mock-slapcat
+check-local:
 	prove t
-
-clean-local:
-	rm -f ldap-git-backup safe-ldif t/mock-slapcat
