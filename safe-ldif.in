@@ -59,7 +59,7 @@ ldap-git-backup --help
 
 =head1 DESCRIPTION
 
-Runs the command given by --ldif-cmd multiple times and returns the last output
+Runs the command given by C<--ldif-cmd> multiple times and returns the last output
 as soon as there are two consecutive invocations giving the same number of LDIF
 stanzas.
 

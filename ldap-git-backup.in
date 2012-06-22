@@ -216,12 +216,13 @@ ordering and the DN as the unique key for an entry.
 
 Specify a command to create a complete LDIF dump of the LDAP directory suitable
 for a backup.  It should contain all entries necessary to restore the LDAP
-database.  By default /usr/sbin/slapcat from OpenLDAP is taken.
+database.  By default C<@bindir@/safe-ldif> is taken which calls
+C</usr/sbin/slapcat> from OpenLDAP.
 
 =item B<--backup-dir E<lt>backup_directoryE<gt>>
 
 Specify the directory where the GIT repository for the versioned backup is held.
-Default: /var/backup/ldap
+Default: C</var/backup/ldap>
 
 =item B<--commit-msg E<lt>commit_stringE<gt>>
 
