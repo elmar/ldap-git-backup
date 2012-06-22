@@ -40,7 +40,8 @@ sub main {
     my $repo = Git->repository(Directory => $backup_dir);
 
     my @filelist = $repo->command('ls-files');
-    $repo->command('rm', @filelist) if @filelist;
+    my %files_before = ();
+    for my $f (@filelist) { $files_before{$f} = 1 }
 
     @filelist = ();
     for my $ldif (@$ldif_aref) {
@@ -49,8 +50,10 @@ sub main {
         print {$fh} $ldif;
         close($fh);
         push(@filelist, $filename);
+        delete($files_before{$filename});
     }
     $repo->command('add', @filelist) if @filelist;
+    $repo->command('rm', (keys %files_before)) if %files_before;
 
     $repo->command('commit', "--message=$commit_msg", "--date=$commit_date");
 }
