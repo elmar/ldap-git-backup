@@ -3,10 +3,8 @@
 use English qw( -no_match_vars );
 
 use Test::More;
-use Cwd qw( abs_path );
-my $BASE = abs_path("$0/../..");
 
-require "$BASE/ldap-git-backup";
+require "@builddir@/ldap-git-backup";
 
 for my $test_case (
     {
@@ -59,7 +57,7 @@ exit 0;
 sub read_first_ldif {
     my ($ldif_file) = @_;
 
-    my $ldif_aref = LDAP::Utils::read_ldif("cat $BASE/t/testdata/$ldif_file.ldif");
+    my $ldif_aref = LDAP::Utils::read_ldif("cat @srcdir@/t/testdata/$ldif_file.ldif");
     ok(@$ldif_aref == 1, 'count one entry');
 
     return ${$ldif_aref}[0];

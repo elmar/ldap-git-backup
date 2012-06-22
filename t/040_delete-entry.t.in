@@ -3,10 +3,8 @@
 use English qw( -no_match_vars );
 
 use Test::More;
-use Cwd qw( abs_path );
-my $BASE = abs_path("$0/../..");
 
-require "$BASE/t/test-helper.pm";
+require "@srcdir@/t/test-helper.pm";
 Test::Helper->import();
 
 use Git;
@@ -17,8 +15,8 @@ my $backup_dir = tempdir( CLEANUP => 1 );
 ok(
     system(
         'perl',
-        "$BASE/ldap-git-backup",
-        "--ldif-cmd=cat $BASE/t/testdata/data_B1.ldif",
+        "@builddir@/ldap-git-backup",
+        "--ldif-cmd=cat @srcdir@/t/testdata/data_B1.ldif",
         "--backup-dir=$backup_dir",
     ) == 0,
     'first backup with all entries should run'
@@ -39,8 +37,8 @@ check_directory_list($backup_dir, qw(
 ok(
     system(
         'perl',
-        "$BASE/ldap-git-backup",
-        "--ldif-cmd=cat $BASE/t/testdata/data_B2.ldif",
+        "@builddir@/ldap-git-backup",
+        "--ldif-cmd=cat @srcdir@/t/testdata/data_B2.ldif",
         "--backup-dir=$backup_dir",
     ) == 0,
     'second backup with one fewer entry should run'

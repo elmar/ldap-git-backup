@@ -3,9 +3,7 @@
 use English qw( -no_match_vars );
 
 use Test::More;
-use Cwd qw( abs_path );
-my $BASE = abs_path("$0/../..");
 
-ok(system('perl', "$BASE/ldap-git-backup", '--help') == 0, 'option --help should be allowed');
+ok(system('perl', "@builddir@/ldap-git-backup", '--help') == 0, 'option --help should be allowed');
 
 done_testing();
