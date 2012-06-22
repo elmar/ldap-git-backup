@@ -39,14 +39,6 @@ sub main {
     Git::command('init');
     my $repo = Git->repository(Directory => $backup_dir);
 
-    git_clean_old_entries($backup_dir, $repo);
-    git_add_ldif_entries($ldif_aref, $backup_dir, $repo);
-    $repo->command('commit', "--message=$commit_msg", "--date=$commit_date");
-}
-
-sub git_clean_old_entries {
-    my ($backup_dir, $repo) = @_;
-
     my @filelist = ();
     opendir(my $dir_handle, $backup_dir);
     FILE:
@@ -55,8 +47,8 @@ sub git_clean_old_entries {
         push(@filelist, $file);
     }
     $repo->command('rm', @filelist) if @filelist;
-
-    return;
+    git_add_ldif_entries($ldif_aref, $backup_dir, $repo);
+    $repo->command('commit', "--message=$commit_msg", "--date=$commit_date");
 }
 
 sub git_add_ldif_entries {
