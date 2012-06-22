@@ -47,14 +47,8 @@ sub main {
         push(@filelist, $file);
     }
     $repo->command('rm', @filelist) if @filelist;
-    git_add_ldif_entries($ldif_aref, $backup_dir, $repo);
-    $repo->command('commit', "--message=$commit_msg", "--date=$commit_date");
-}
 
-sub git_add_ldif_entries {
-    my ($ldif_aref, $backup_dir, $repo) = @_;
-
-    my @filelist = ();
+    @filelist = ();
     for my $ldif (@$ldif_aref) {
         my $filename = LDAP::Utils::filename($ldif);
         open(my $fh, '>', "$backup_dir/$filename");
@@ -64,7 +58,7 @@ sub git_add_ldif_entries {
     }
     $repo->command('add', @filelist) if @filelist;
 
-    return;
+    $repo->command('commit', "--message=$commit_msg", "--date=$commit_date");
 }
 
 package LDAP::Utils;
