@@ -1,0 +1,5 @@
+Please see:
+- git log
+  for the package itself
+- debian/changelog
+  for the Debian specific stuff
