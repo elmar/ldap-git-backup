@@ -56,6 +56,7 @@ sub main {
     $repo->command('rm', (keys %files_before)) if %files_before;
 
     $repo->command('commit', "--message=$commit_msg", "--date=$commit_date");
+    $repo->command('gc', '--quiet');
 }
 
 package LDAP::Utils;
