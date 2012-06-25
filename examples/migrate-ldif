@@ -1,0 +1,23 @@
+#!/bin/bash
+
+LDIF_DIR=$1
+BKUP_DIR=$2
+
+function usage () {
+    echo "usage: $0 <LDIF_DIR> <BKUP_DIR>"
+    exit 1
+}
+
+[[ -d $LDIF_DIR ]] || usage
+[[ -d $BKUP_DIR ]] || usage
+
+for filepath in `ls -1tr $LDIF_DIR/TODO/*.gz` ; do
+    filename=`basename $filepath`
+    echo $filename
+    ldap-git-backup \
+        --ldif-cmd "zcat $filepath" \
+        --backup-dir $BKUP_DIR \
+        --commit-msg $filename \
+        --commit-date $filepath
+    mv $path DONE/$filename
+done

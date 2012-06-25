@@ -1,4 +1,4 @@
-ldap-git-backup
+LDAP Git Backup
 ===============
 
 Back up your LDAP data in a Git repository
@@ -9,40 +9,89 @@ If you are using OpenLDAP the script
 
     ldap-git-backup
 
-will dump your current LDAP database into <code>/var/backups/ldap</code> and
-check it into Git.  Do this regulary and you will have a versioned history of
-backups.
+will dump your current LDAP database into <code>/var/backups/ldap</code> and check it into Git.  Do this regulary and you will have a versioned history of backups.
 
 ## Motivation
 
-How do you back up your LDAP data?  Typically, you run a cron job once per day
-to dump all LDAP entries into a LDIF file then compress this file and keep a
-few generations.  With OpenLDAP the command to use is <code>slapcat</code>.
-Since LDAP usually contains a lot of similar entries the compression is quite
-good and you can keep a few backups with space requirements comparable to the
-LDAP database itself.  When disaster strikes you take the most recent backup
-that you know not to contain the problem and restore the data from there.
+How do you back up your LDAP data?  Typically, you run a cron job once per day to dump all LDAP entries into a LDIF file then compress this file and keep a few generations.  With OpenLDAP the command to use is <code>slapcat</code>.  Since LDAP usually contains a lot of similar entries the compression is quite good and you can keep a few backups with space requirements comparable to the LDAP database itself.  When disaster strikes you take the most recent backup that you know not to contain the problem and restore the data from there.
 
-This is all quite resonable, but we can do better.  LDAP is used for data that
-are read more often than written.  As a result the differences between two
-consecutive backups are relatively small.  If we store only the deltas we can
-save quite some space.  Git will do all the management of the delta and keep a
-record of the history.  To make this approach practical we split up the LDIF
-into individual entries and track the entries as separate files.
+This is all quite resonable, but we can do better.  LDAP is used for data that are read more often than written.  As a result the differences between two consecutive backups are relatively small.  If we store only the deltas we can save quite some space.  Git will do all the management of the delta and keep a record of the history.  To make this approach practical we split up the LDIF into individual entries and track the entries as separate files.
 
 ## Mode of Operation
 
-The script <code>ldap-git-backup</code> is convenient way to automate this
-process.  Each time it is run it will call the LDIF command given by the
-option <code>--ldif-cmd</code> or <code>/usr/sbin/slapcat</code> if none is
-given.  The output of the LDIF command is split up into individual files, one
-per entry.  The file names are a combination of the creation time of the entry
-and a hash of the DN.  With this naming the individual LDIF entries will keep
-their names between backups and still avoid name clashes.  The unlikely case of
-a name clash will be automatically handled by adding a simple count to the
-file.
+The script <code>ldap-git-backup</code> is convenient way to automate this process.  Each time it is run it will call the LDIF command given by the option <code>--ldif-cmd</code> or <code>/usr/sbin/slapcat</code> if none is given.  The output of the LDIF command is split up into individual files, one per entry.  The file names are a combination of the creation time of the entry and a hash of the DN.  With this naming the individual LDIF entries will keep their names between backups and still avoid name clashes.  The unlikely case of a name clash will be automatically handled by adding a simple count to the file.
 
-The backup location will be <code>/var/backups/ldap</code> or an alternative
-directory given by the <code>--backup-dir</code> option.  This directory will
-also contain the Git repository.  The directory and the Git repository will be
-created if needed when the first backup is made.
+The backup location will be <code>/var/backups/ldap</code> or an alternative directory given by the <code>--backup-dir</code> option.  This directory will also contain the Git repository.  The directory and the Git repository will be created if needed when the first backup is made.
+
+## Backup Strategies
+
+The simplest backup strategy would just call <code>ldap-git-backup</code> once per day via cron.  Pick a quiet time for the LDAP directory and add a command like the following the your crontab (e.g., <code>crontab -e</code> or in <code>/etc/cron.d/ldap-git-backup</code>):
+
+    0 5 * * * /usr/bin/ldap-git-backup --commit-msg 'backup by daily cron'
+
+You can also trigger a backup whenever some relevant event like adding an LDAP entry or changing the password occurs.  The details depend on your setup.  Ultimately, you want to call <code>ldap-git-backup</code> with some helpful <code>--commit-msg</code>.
+
+## Migrating Previous Backups to Git
+
+Unless you are starting a new LDAP directory chances are you already have some backups.  With OpenLDAP you would typically use the above mentioned <code>slapcat</code> command and compress the result.  You can use <code>ldif-git-backup</code> to add these older backups to the Git repository.
+
+Here is some example code that may serve as a start:
+
+    #!/bin/bash
+    LDIF_DIR=$1
+    BKUP_DIR=$2
+
+    function usage () {
+        echo "usage: $0 <LDIF_DIR> <BACKUP_DIR>"
+        exit 1
+    }
+
+    [[ -d $LDIF_DIR ]] || usage
+    [[ -d $BKUP_DIR ]] || usage
+
+    for filepath in `ls -1tr $LDIF_DIR/TODO/*.gz` ; do
+        filename=`basename $filepath`
+        echo $filename
+        ldap-git-backup \
+            --ldif-cmd "zcat $filepath" \
+            --backup-dir $BKUP_DIR \
+            --commit-msg $filename \
+            --commit-date $filepath
+        mv $path DONE/$filename
+    done
+
+To use this script you put all compressed old LDIF file in a subdirectory <code>TODO</code> of some directory where you keep the backups.  You must also create another directory <code>DONE</code> where the processed backups will be moved into.  Furthermore, the script assumes that the backup files still have their original modification time of when the backup was performed.  This is used to sort the files and to set the commit date.
+
+If your setup is different you have to adjust the script or write your own.  Alternatively, you can decide to start with a clean slate and keep the old backups unchanged for as long as your backup policy requires.
+
+## Restores
+
+If you need to restore some data you will find the individual LDIF files checked out in the working tree of the backup directory (<code>/var/backups/ldap</code> by default).  You can use these files directly if you just need the latest version of one or a few LDAP entries.  You can use the standard commands meant to deal with LDIF files.  You may also consider writing some Perl/Python/Ruby scripts depending on the restore you want to make.
+
+If you want to restore the entire LDAP database it might by enough to concatenate all LDIF files and add them to an new, empty LDAP directory.  The file names contain the create timestamp as their first part.  Any entry that depends on another entry needs to have a timestamp that is later than that of the entry it depends on.  If the data has accumulated naturally, this is usually the case.  However, if an entry now depends on another entry that was only created later you may need to reorder the LDIF files or you add them in several passes and keep a list of entries that didn't add themselves properly in an earlier pass.
+
+If you want to do more complicated restores it is advisable that you clone the Git repository first.  You need to clone only the commits that are relevant for the restore.  A typical session might look like this (cloning the last 10 backups and checking out 7 commits earlier):
+
+    mkdir /tmp/ldap-restore
+    cd /tmp/ldap-restore
+    git clone --depth 10 /var/backups/ldap
+    git checkout -b restore master~7
+    ...
+
+## Bug Hunting with the Git Repository
+
+You may be looking for the cause of a problem where you suspect some changes in an LDAP entry to be the reason.  You can use the Git repository to see all the changes done to the LDAP directory (in intervals given by your backup policy).  You may do something like:
+
+    cd /var/backups/ldap
+    git log --stat
+    git show &lt;commit-ID&gt;
+
+You may also see the complete diff history with <code>git log -p</code>.  Individual entries retain their name as long as the create timestamp and DN do not change.  Therefore, you can investigate the history of an individual entry with <code>git log -p filename</code>.
+
+## Safe LDIF
+
+With OpenLDAP the command <code>slapcat</code> is meant to produce a snapshot LDIF of an active OpenLDAP server.  This works most of the time but occasionally we experienced truncated output without any indication of a problem.  <code>slapcat</code> would exit with a zero exit code and the resulting LDIF dump is valid but too short.  This may be a [bug in OpenLDAP](http://bugs.debian.org/673038).  At the time of this writing it is not clear what triggers the bug.
+
+To make the backups a bit more robust we can trade speed with reliability and call the <code>--ldif-cmd</code> (i.e., <code>slapcat</code>) multiple times to verify the backup.  <code>safe-ldif</code> does just this and writes the last dump as soon as two consecutive outputs result in the same number of LDIF stanzas.  This accomodates LDAP directories where attributes may be updated relatively frequently but the number of entries changes only rarely.
+
+Since reliable backups are important <code>safe-ldif</code> is the default.
