@@ -44,4 +44,8 @@ ldap-git-backup: ldap-git-backup.in
 	mv $@.tmp $@
 
 check-local:
+	ln -s . t/t
 	prove t
+
+clean-local:
+	rm t/t
