@@ -3,11 +3,11 @@
 ##
 ACLOCAL_AMFLAGS = -I m4 --install
 
-bin_SCRIPTS   = ldap-git-backup safe-ldif
+sbin_SCRIPTS   = ldap-git-backup safe-ldif
 check_SCRIPTS = t/mock-slapcat
 man_MANS      = ldap-git-backup.1 safe-ldif.1
 
-CLEANFILES = $(bin_SCRIPTS) $(check_SCRIPTS) $(man_MANS)
+CLEANFILES = $(sbin_SCRIPTS) $(check_SCRIPTS) $(man_MANS)
 EXTRA_DIST = \
 	ldap-git-backup.in \
 	safe-ldif.in \
@@ -16,6 +16,7 @@ EXTRA_DIST = \
 
 edit = sed \
 	   -e 's|@bindir[@]|$(bindir)|g' \
+	   -e 's|@sbindir[@]|$(sbindir)|g' \
 	   -e 's|@PERL_PREAMBLE[@]|@PERL_PREAMBLE@|g'
 
 ldap-git-backup.1: ldap-git-backup

@@ -27,7 +27,7 @@ The backup location will be <code>/var/backups/ldap</code> or an alternative dir
 
 The simplest backup strategy would just call <code>ldap-git-backup</code> once per day via cron.  Pick a quiet time for the LDAP directory and add a command like the following the your crontab (e.g., <code>crontab -e</code> or in <code>/etc/cron.d/ldap-git-backup</code>):
 
-    0 5 * * * /usr/bin/ldap-git-backup --commit-msg 'backup by daily cron'
+    0 5 * * * /usr/sbin/ldap-git-backup --commit-msg 'backup by daily cron'
 
 You can also trigger a backup whenever some relevant event like adding an LDAP entry or changing the password occurs.  The details depend on your setup.  Ultimately, you want to call <code>ldap-git-backup</code> with some helpful <code>--commit-msg</code>.
 

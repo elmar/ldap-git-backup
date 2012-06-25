@@ -14,7 +14,7 @@ sub main {
     use File::Path qw( make_path );
     use Git;
 
-    my $ldif_cmd    = '@bindir@/safe-ldif';
+    my $ldif_cmd    = '@sbindir@/safe-ldif';
     my $backup_dir  = '/var/backup/ldap';
     my $commit_msg  = 'ldap-git-backup';
     my $commit_date = time();
@@ -200,7 +200,7 @@ ordering and the DN as the unique key for an entry.
 
 Specify a command to create a complete LDIF dump of the LDAP directory suitable
 for a backup.  It should contain all entries necessary to restore the LDAP
-database.  By default C<@bindir@/safe-ldif> is taken which calls
+database.  By default C<@sbindir@/safe-ldif> is taken which calls
 C</usr/sbin/slapcat> from OpenLDAP.
 
 =item B<--backup-dir E<lt>backup_directoryE<gt>>
