@@ -84,7 +84,7 @@ You may be looking for the cause of a problem where you suspect some changes in 
 
     cd /var/backups/ldap
     git log --stat
-    git show &lt;commit-ID&gt;
+    git show <commit-ID>
 
 You may also see the complete diff history with <code>git log -p</code>.  Individual entries retain their name as long as the create timestamp and DN do not change.  Therefore, you can investigate the history of an individual entry with <code>git log -p filename</code>.
 
