@@ -48,4 +48,4 @@ check-local:
 	prove t
 
 clean-local:
-	rm t/t
+	rm -f t/t
