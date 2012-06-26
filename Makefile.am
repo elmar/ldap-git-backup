@@ -11,6 +11,9 @@ CLEANFILES = $(sbin_SCRIPTS) $(check_SCRIPTS) $(man_MANS)
 EXTRA_DIST = \
 	ldap-git-backup.in \
 	safe-ldif.in \
+	README.md \
+	examples \
+	ChangeLog \
 	t/mock-slapcat.in \
 	t/testdata
 
