@@ -1,5 +1,6 @@
 Please see:
-- git log
+
+- git log on https://github.com/elmar/ldap-git-backup
   for the package itself
 - debian/changelog
   for the Debian specific stuff
