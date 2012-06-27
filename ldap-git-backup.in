@@ -15,7 +15,7 @@ sub main {
     use Git;
 
     my $ldif_cmd    = '@sbindir@/safe-ldif';
-    my $backup_dir  = '/var/backup/ldap';
+    my $backup_dir  = '/var/backups/ldap';
     my $commit_msg  = 'ldap-git-backup';
     my $commit_date = time();
     my $help;
@@ -206,7 +206,7 @@ C</usr/sbin/slapcat> from OpenLDAP.
 =item B<--backup-dir E<lt>backup_directoryE<gt>>
 
 Specify the directory where the GIT repository for the versioned backup is held.
-Default: F</var/backup/ldap>
+Default: F</var/backups/ldap>
 
 =item B<--commit-msg E<lt>commit_stringE<gt>>
 
