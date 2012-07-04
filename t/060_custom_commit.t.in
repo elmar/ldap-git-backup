@@ -10,6 +10,7 @@ use Git;
 
 my $backup_dir = tempdir( CLEANUP => 1 );
 my $now_string = gmtime;
+$now_string =~ s{ +}{ }g;
 $ENV{TZ} = 'UTC';  # choose the time zone for our test
 
 # ----- first backup -----
