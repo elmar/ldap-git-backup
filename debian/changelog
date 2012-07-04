@@ -1,0 +1,14 @@
+ldap-git-backup (1.0-2) unstable; urgency=low
+
+  * fix typo backup vs. backups in default settings
+  * add reference to upstream ChangeLog
+  * make check, make distcheck, and tests in debuild should
+    all work properly
+
+ -- Elmar S. Heeb <elmar@heebs.ch>  Wed, 04 Jul 2012 12:16:33 +0200
+
+ldap-git-backup (1.0-1) unstable; urgency=low
+
+  * Initial release (Closes: #678980)
+
+ -- Elmar S. Heeb <elmar@heebs.ch>  Mon, 25 Jun 2012 14:08:13 +0200

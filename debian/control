@@ -1,0 +1,25 @@
+Source: ldap-git-backup
+Section: admin
+Priority: optional
+Maintainer: Elmar S. Heeb <elmar@heebs.ch>
+Build-Depends: debhelper (>= 7.0.50~), autotools-dev
+Build-Depends-Indep: libmodern-perl-perl
+Standards-Version: 3.9.3
+Homepage: https://github.com/elmar/ldap-git-backup
+Vcs-Git: git://github.com/elmar/ldap-git-backup.git
+Vcs-Browser: https://github.com/elmar/ldap-git-backup
+
+Package: ldap-git-backup
+Architecture: all
+Depends: ${misc:Depends}, ${perl:Depends}
+Suggests: slapd
+Enhances: slapd
+Description: Back up LDAP database in an Git repository
+ ldap-git-backup (creates and) updates a Git repository which contains the
+ current LDIF dump of an LDAP directory.  Given that writes are rare in an LDAP
+ directory and confined to a few entries for each write Git will store the
+ entire history of an LDAP directory in a space efficient way.
+ .
+ By default the backups are done with slapcat from OpenLDAP but can be done
+ with any command that dumps the current contents of an LDAP directory in LDIF
+ format.
