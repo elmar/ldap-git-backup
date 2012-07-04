@@ -10,18 +10,21 @@ AX_PROG_PERL_MODULES(
 )
 
 AM_INIT_AUTOMAKE([foreign -Wall -Werror])
-AC_CONFIG_FILES([
-    Makefile
-    t/test-helper.pm
-    t/001_help-option.t
-    t/010_read_ldif.t
-    t/020_entry-name.t
-    t/030_git-from-scratch.t
-    t/040_delete-entry.t
-    t/050_modify-entry.t
-    t/060_custom_commit.t
-    t/070_mock-slapcat.t
-    t/071_safe-ldif.t
-],[chmod +x t/*.t])
+
+[test -L t/t || ln -sf . t/t]
+
+AC_CONFIG_FILES([Makefile])
+AC_CONFIG_FILES([t/test-helper.pm])
+AC_CONFIG_FILES([t/001_help-option.t],      [chmod +x t/001_help-option.t])
+AC_CONFIG_FILES([t/010_read_ldif.t],        [chmod +x t/010_read_ldif.t])
+AC_CONFIG_FILES([t/020_entry-name.t],       [chmod +x t/020_entry-name.t])
+AC_CONFIG_FILES([t/030_git-from-scratch.t], [chmod +x t/030_git-from-scratch.t])
+AC_CONFIG_FILES([t/040_delete-entry.t],     [chmod +x t/040_delete-entry.t])
+AC_CONFIG_FILES([t/050_modify-entry.t],     [chmod +x t/050_modify-entry.t])
+AC_CONFIG_FILES([t/060_custom_commit.t],    [chmod +x t/060_custom_commit.t])
+AC_CONFIG_FILES([t/070_mock-slapcat.t],     [chmod +x t/070_mock-slapcat.t])
+AC_CONFIG_FILES([t/071_safe-ldif.t],        [chmod +x t/071_safe-ldif.t])
+AC_CONFIG_FILES([t/mock-slapcat],           [chmod +x t/mock-slapcat])
+AC_CONFIG_FILES([safe-ldif],                [chmod +x safe-ldif])
 
 AC_OUTPUT

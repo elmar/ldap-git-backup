@@ -7,9 +7,6 @@ use autodie;
 use Carp;
 use Getopt::Long;
 
-use Cwd qw( abs_path );
-my $BASE = abs_path("$0/../..");
-
 use File::Path qw( make_path );
 use File::Temp qw( tempdir );
 my $tempdir;
@@ -38,12 +35,12 @@ if ($show_count) {
 my $count = read_count();
 my $ldif;
 if ($count < 1) {
-    open my $in, '<', "$BASE/t/testdata/data0.ldif";
+    open my $in, '<', "@srcdir@/t/testdata/data0.ldif";
     $ldif = do { local $RS; <$in> };
     close $in;
 }
 else {
-    open my $in, '<', "$BASE/t/testdata/data1.ldif";
+    open my $in, '<', "@srcdir@/t/testdata/data1.ldif";
     $ldif = do { local $RS; <$in> };
     close $in;
 }
