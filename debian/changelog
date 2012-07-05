@@ -1,3 +1,10 @@
+ldap-git-backup (1.0-3) unstable; urgency=low
+
+  * dependency on git (build + package)
+  * document installation from source
+
+ -- Elmar S. Heeb <elmar@heebs.ch>  Thu, 05 Jul 2012 11:00:52 +0200
+
 ldap-git-backup (1.0-2) unstable; urgency=low
 
   * fix typo backup vs. backups in default settings
