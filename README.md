@@ -5,11 +5,23 @@ Back up your LDAP data in a Git repository
 
 ## Quick Start
 
+### Installation
+
+    wget https://github.com/downloads/elmar/ldap-git-backup/ldap-git-backup.tar.gz
+    tar xzf ldap-git-backup.tar.gz
+    cd ldap-git-backup-1.0
+    ./configure
+    make
+    make check
+    sudo make install
+
+### Deployment
+
 If you are using OpenLDAP the script
 
     ldap-git-backup
 
-will dump your current LDAP database into <code>/var/backups/ldap</code> and check it into Git.  Do this regulary and you will have a versioned history of backups.
+will dump your current LDAP database into <code>/var/backups/ldap</code> and check it into Git.  Do this regularyi (e.g. via cron) and you will have a versioned history of backups.
 
 ## Motivation
 
