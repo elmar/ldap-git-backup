@@ -21,7 +21,7 @@ If you are using OpenLDAP the script
 
     ldap-git-backup
 
-will dump your current LDAP database into <code>/var/backups/ldap</code> and check it into Git.  Do this regularyi (e.g. via cron) and you will have a versioned history of backups.
+will dump your current LDAP database into <code>/var/backups/ldap</code> and check it into Git.  Do this regularly (e.g. via cron) and you will have a versioned history of backups.
 
 ## Motivation
 
@@ -31,17 +31,17 @@ This is all quite resonable, but we can do better.  LDAP is used for data that a
 
 ## Mode of Operation
 
-The script <code>ldap-git-backup</code> is convenient way to automate this process.  Each time it is run it will call the LDIF command given by the option <code>--ldif-cmd</code> or <code>/usr/sbin/slapcat</code> if none is given.  The output of the LDIF command is split up into individual files, one per entry.  The file names are a combination of the creation time of the entry and a hash of the DN.  With this naming the individual LDIF entries will keep their names between backups and still avoid name clashes.  The unlikely case of a name clash will be automatically handled by adding a simple count to the file.
+The script <code>ldap-git-backup</code> is a convenient way to automate this process.  Each time it is run it will call the LDIF command given by the option <code>--ldif-cmd</code> or <code>/usr/sbin/slapcat</code> if none is given.  The output of the LDIF command is split up into individual files, one per entry.  The file names are a combination of the creation time of the entry and a hash of the DN.  With this naming the individual LDIF entries will keep their names between backups and still avoid name clashes.  The unlikely case of a name clash will be automatically handled by adding a simple count to the file.
 
 The backup location will be <code>/var/backups/ldap</code> or an alternative directory given by the <code>--backup-dir</code> option.  This directory will also contain the Git repository.  The directory and the Git repository will be created if needed when the first backup is made.
 
 ## Backup Strategies
 
-The simplest backup strategy would just call <code>ldap-git-backup</code> once per day via cron.  Pick a quiet time for the LDAP directory and add a command like the following the your crontab (e.g., <code>crontab -e</code> or in <code>/etc/cron.d/ldap-git-backup</code>):
+The simplest backup strategy would just call <code>ldap-git-backup</code> once per day via cron.  Pick a quiet time for the LDAP directory and add a command like the following to your crontab (e.g., <code>crontab -e</code> or in <code>/etc/cron.d/ldap-git-backup</code>):
 
     0 5 * * * /usr/sbin/ldap-git-backup --commit-msg 'backup by daily cron'
 
-You can also trigger a backup whenever some relevant event like adding an LDAP entry or changing the password occurs.  The details depend on your setup.  Ultimately, you want to call <code>ldap-git-backup</code> with some helpful <code>--commit-msg</code>.
+Alternatively or in addition you can also trigger a backup whenever some relevant event like adding an LDAP entry or changing a password occurs.  The details depend on your setup.  Ultimately, you want to call <code>ldap-git-backup</code> with some helpful <code>--commit-msg</code>.
 
 ## Migrating Previous Backups to Git
 
