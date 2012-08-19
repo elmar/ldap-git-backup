@@ -12,6 +12,7 @@ use File::Temp qw( tempdir );
 
 my $backup_dir = tempdir( CLEANUP => 1 );
 # ----- first backup -----
+# a few LDIF files to start
 ok(
     system(
         'perl',
@@ -34,6 +35,7 @@ check_directory_list($backup_dir, qw(
 ));
 
 # ----- second backup -----
+# modified entry
 ok(
     system(
         'perl',
@@ -56,6 +58,7 @@ check_directory_list($backup_dir, qw(
 ));
 
 # ----- third backup -----
+# insignificat DN change
 ok(
     system(
         'perl',
@@ -63,7 +66,7 @@ ok(
         "--ldif-cmd=cat @srcdir@/t/testdata/data_C3.ldif",
         "--backup-dir=$backup_dir",
     ) == 0,
-    'second backup with insignificant DN changes should run'
+    'third backup with insignificant DN changes should run'
 );
 check_directory_list($backup_dir, qw(
     .
