@@ -80,4 +80,51 @@ check_directory_list($backup_dir, qw(
     20120608152511Z-e81f2e5.ldif
 ));
 
+# ----- forth backup -----
+# extra file, non-LDIF, should not be affected by backup
+
+open my $extra_file, '>', "$backup_dir/extra_file.txt";
+say {$extra_file} 'some extra information that should end up';
+say {$extra_file} 'in the Git repository but be untouch by';
+say {$extra_file} 'subsequent LDAP backups';
+close $extra_file;
+
+my $repo = Git->repository( Directory => $backup_dir );
+$repo->command('add', 'extra_file.txt');
+$repo->command('commit', '-m', 'added extra_file.txt');
+
+check_directory_list($backup_dir, qw(
+    .
+    ..
+    .git
+    20120604153004Z-3816ac9.ldif
+    20120604153004Z-9941228.ldif
+    20120604161324Z-7ebb002.ldif
+    20120604161334Z-e2a09bd.ldif
+    20120608152222Z-92298cf.ldif
+    20120608152511Z-e81f2e5.ldif
+    extra_file.txt
+));
+ok(
+    system(
+        'perl',
+        "@builddir@/ldap-git-backup",
+        "--ldif-cmd=cat @srcdir@/t/testdata/data_C3.ldif",
+        "--backup-dir=$backup_dir",
+    ) == 0,
+    'forth backup with no change of LDIFs but extra file'
+);
+check_directory_list($backup_dir, qw(
+    .
+    ..
+    .git
+    20120604153004Z-3816ac9.ldif
+    20120604153004Z-9941228.ldif
+    20120604161324Z-7ebb002.ldif
+    20120604161334Z-e2a09bd.ldif
+    20120608152222Z-92298cf.ldif
+    20120608152511Z-e81f2e5.ldif
+    extra_file.txt
+));
+
 done_testing();

@@ -39,7 +39,7 @@ sub main {
     Git::command('init');
     my $repo = Git->repository(Directory => $backup_dir);
 
-    my @filelist = $repo->command('ls-files');
+    my @filelist = $repo->command('ls-files', '*.ldif');
     my %files_before = ();
     for my $f (@filelist) { $files_before{$f} = 1 }
 
