@@ -13,18 +13,23 @@ AM_INIT_AUTOMAKE([foreign -Wall -Werror])
 
 [test -L t/t || ln -sf . t/t]
 
+AC_DEFUN([AX_CONFIG_FILE_EXEC],
+         [AC_CONFIG_FILES($1, [chmod +x ]$1)]
+)
+
+
 AC_CONFIG_FILES([Makefile])
 AC_CONFIG_FILES([t/test-helper.pm])
-AC_CONFIG_FILES([t/001_help-option.t],      [chmod +x t/001_help-option.t])
-AC_CONFIG_FILES([t/010_read_ldif.t],        [chmod +x t/010_read_ldif.t])
-AC_CONFIG_FILES([t/020_entry-name.t],       [chmod +x t/020_entry-name.t])
-AC_CONFIG_FILES([t/030_git-from-scratch.t], [chmod +x t/030_git-from-scratch.t])
-AC_CONFIG_FILES([t/040_delete-entry.t],     [chmod +x t/040_delete-entry.t])
-AC_CONFIG_FILES([t/050_modify-entry.t],     [chmod +x t/050_modify-entry.t])
-AC_CONFIG_FILES([t/060_custom_commit.t],    [chmod +x t/060_custom_commit.t])
-AC_CONFIG_FILES([t/070_mock-slapcat.t],     [chmod +x t/070_mock-slapcat.t])
-AC_CONFIG_FILES([t/071_safe-ldif.t],        [chmod +x t/071_safe-ldif.t])
-AC_CONFIG_FILES([t/mock-slapcat],           [chmod +x t/mock-slapcat])
-AC_CONFIG_FILES([safe-ldif],                [chmod +x safe-ldif])
+AX_CONFIG_FILE_EXEC([t/001_help-option.t])
+AX_CONFIG_FILE_EXEC([t/010_read_ldif.t])
+AX_CONFIG_FILE_EXEC([t/020_entry-name.t])
+AX_CONFIG_FILE_EXEC([t/030_git-from-scratch.t])
+AX_CONFIG_FILE_EXEC([t/040_delete-entry.t])
+AX_CONFIG_FILE_EXEC([t/050_modify-entry.t])
+AX_CONFIG_FILE_EXEC([t/060_custom_commit.t])
+AX_CONFIG_FILE_EXEC([t/070_mock-slapcat.t])
+AX_CONFIG_FILE_EXEC([t/071_safe-ldif.t])
+AX_CONFIG_FILE_EXEC([t/mock-slapcat])
+AX_CONFIG_FILE_EXEC([safe-ldif])
 
 AC_OUTPUT
