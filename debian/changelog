@@ -1,3 +1,9 @@
+ldap-git-backup (1.0.1-1) unstable; urgency=low
+
+  * allow extra files to go into Git repo and be untouched by backups
+
+ -- Elmar S. Heeb <elmar@heebs.ch>  Tue, 18 Sep 2012 18:20:21 +0200
+
 ldap-git-backup (1.0-3) unstable; urgency=low
 
   * dependency on git (build + package)
