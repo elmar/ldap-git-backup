@@ -1,7 +1,9 @@
 #!/usr/bin/env perl
 # -*- perl -*-
 # vim: set filetype=perl :
-@PERL_PREAMBLE@
+use strict;
+use warnings;
+use 5.010;
 use English qw( -no_match_vars );
 use autodie;
 use Carp;

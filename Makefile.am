@@ -1,7 +1,6 @@
 ## Makefile.am
 ## Process this file with automake to produce Makefile.in
 ##
-ACLOCAL_AMFLAGS = -I m4 --install
 
 sbin_SCRIPTS   = ldap-git-backup safe-ldif
 check_SCRIPTS = t/mock-slapcat
@@ -17,8 +16,7 @@ EXTRA_DIST = \
 
 edit = sed \
 	   -e 's|@bindir[@]|$(bindir)|g' \
-	   -e 's|@sbindir[@]|$(sbindir)|g' \
-	   -e 's|@PERL_PREAMBLE[@]|@PERL_PREAMBLE@|g'
+	   -e 's|@sbindir[@]|$(sbindir)|g'
 
 ldap-git-backup.1: ldap-git-backup
 	pod2man -c 'User Commands' -r "$(VERSION)" $< $@

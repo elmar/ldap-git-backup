@@ -3,12 +3,6 @@ AC_INIT([LDAP Git Backup],[1.0.1],[elmar@heebs.ch],[ldap-git-backup],[https://gi
 ])
 AC_CONFIG_AUX_DIR([build-aux])
 
-AX_PROG_PERL_MODULES(
-    [Modern::Perl],
-    [AC_SUBST([PERL_PREAMBLE], ['use Modern::Perl;']                   )],
-    [AC_SUBST([PERL_PREAMBLE], ['use strict; use warnings; use 5.010;'])]
-)
-
 AM_INIT_AUTOMAKE([foreign -Wall -Werror])
 
 [test -L t/t || ln -sf . t/t]
