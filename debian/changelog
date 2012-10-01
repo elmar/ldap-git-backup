@@ -1,3 +1,9 @@
+ldap-git-backup (1.0.2-1) unstable; urgency=low
+
+  * remove option to use Modern::Perl (Closes: #689290)
+
+ -- Elmar S. Heeb <elmar@heebs.ch>  Mon, 01 Oct 2012 15:03:12 +0200
+
 ldap-git-backup (1.0.1-1) unstable; urgency=low
 
   * allow extra files to go into Git repo and be untouched by backups
