@@ -1,6 +1,7 @@
 ldap-git-backup (1.0.2-1) unstable; urgency=low
 
   * remove option to use Modern::Perl (Closes: #689290)
+  * fixed watch file to include final slash
 
  -- Elmar S. Heeb <elmar@heebs.ch>  Mon, 01 Oct 2012 15:03:12 +0200
 
