@@ -6,6 +6,17 @@ use English qw( -no_match_vars );
 
 use Test::More;
 
-ok(system('perl', "@builddir@/ldap-git-backup", '--help') == 0, 'option --help should be allowed');
+use IPC::Run qw( run );
+my $in = '';
+my $out;
+my $err;
+my $cmd;
+
+$cmd = [
+    '@builddir@/t/../ldap-git-backup',
+    '--help',
+];
+ok( run($cmd, \$in, \$out, \$err), 'option --help should be allowed' );
+like( $out, qr{--help}, 'the --help option should be mentioned' );
 
 done_testing();
