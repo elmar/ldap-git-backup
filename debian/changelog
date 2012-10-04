@@ -1,3 +1,9 @@
+ldap-git-backup (1.0.3-1) unstable; urgency=low
+
+  * fixed autoconf directory variables
+
+ -- Elmar S. Heeb <elmar@heebs.ch>  Thu, 04 Oct 2012 16:44:30 +0200
+
 ldap-git-backup (1.0.2-1) unstable; urgency=low
 
   * remove option to use Modern::Perl (Closes: #689290)
