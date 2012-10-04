@@ -12,22 +12,22 @@ my $TEMPDIR = tempdir( CLEANUP => 1 );
 use File::Path qw( make_path );
 make_path($TEMPDIR);
 
-ok(system('perl', "@builddir@/t/mock-slapcat", "--tempdir=$TEMPDIR", '--reset-count') == 0, 'resetting mock counter');
-my $counter   = slurp_from_cmd("perl @builddir@/t/mock-slapcat --tempdir=$TEMPDIR --show-count");
+ok(system('perl', "@abs_top_builddir@/t/mock-slapcat", "--tempdir=$TEMPDIR", '--reset-count') == 0, 'resetting mock counter');
+my $counter   = slurp_from_cmd("perl @abs_top_builddir@/t/mock-slapcat --tempdir=$TEMPDIR --show-count");
 chomp($counter);
 is($counter, 0, 'counter should be zero initially');
 
-my $reference = slurp_from_cmd("cat @srcdir@/t/testdata/data0.ldif");
-my $data      = slurp_from_cmd("perl @builddir@/t/mock-slapcat --tempdir=$TEMPDIR");
-$counter      = slurp_from_cmd("perl @builddir@/t/mock-slapcat --tempdir=$TEMPDIR --show-count");
+my $reference = slurp_from_cmd("cat @abs_top_srcdir@/t/testdata/data0.ldif");
+my $data      = slurp_from_cmd("perl @abs_top_builddir@/t/mock-slapcat --tempdir=$TEMPDIR");
+$counter      = slurp_from_cmd("perl @abs_top_builddir@/t/mock-slapcat --tempdir=$TEMPDIR --show-count");
 chomp($counter);
 
 is($data, $reference, 'LDIF data from first run');
 is($counter, 1, 'counter should be one');
 
-$reference = slurp_from_cmd("cat @srcdir@/t/testdata/data1.ldif");
-$data      = slurp_from_cmd("perl @builddir@/t/mock-slapcat --tempdir=$TEMPDIR");
-$counter   = slurp_from_cmd("perl @builddir@/t/mock-slapcat --tempdir=$TEMPDIR --show-count");
+$reference = slurp_from_cmd("cat @abs_top_srcdir@/t/testdata/data1.ldif");
+$data      = slurp_from_cmd("perl @abs_top_builddir@/t/mock-slapcat --tempdir=$TEMPDIR");
+$counter   = slurp_from_cmd("perl @abs_top_builddir@/t/mock-slapcat --tempdir=$TEMPDIR --show-count");
 chomp($counter);
 
 is($data, $reference, 'LDIF data from second run');

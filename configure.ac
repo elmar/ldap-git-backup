@@ -1,7 +1,7 @@
 AC_PREREQ([2.67])dnl require version in Debian squeeze (or higher)
 AC_INIT(
     [LDAP Git Backup],
-    [1.0.2],
+    [1.0.3],
     [elmar@heebs.ch],
     [ldap-git-backup],
     [https://github.com/elmar/ldap-git-backup]
@@ -10,12 +10,9 @@ AC_CONFIG_AUX_DIR([build-aux])
 
 AM_INIT_AUTOMAKE([foreign -Wall -Werror])
 
-[test -L t/t || ln -sf . t/t]
-
 AC_DEFUN([AX_CONFIG_FILE_EXEC],
          [AC_CONFIG_FILES($1, [chmod +x ]$1)]
 )
-
 
 AC_CONFIG_FILES([Makefile])
 AC_CONFIG_FILES([t/test-helper.pm])

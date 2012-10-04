@@ -7,7 +7,7 @@ use autodie;
 
 use Test::More;
 
-require "@srcdir@/t/test-helper.pm";
+require "@abs_top_builddir@/t/test-helper.pm";
 Test::Helper->import();
 
 use Git;
@@ -25,8 +25,8 @@ ok( (not -e $backup_dir), 'backup directory should not exist at first' );
 ok(
     system(
         'perl',
-        "@builddir@/ldap-git-backup",
-        "--ldif-cmd=cat @srcdir@/t/testdata/data_A1.ldif",
+        "@abs_top_builddir@/ldap-git-backup",
+        "--ldif-cmd=cat @abs_top_srcdir@/t/testdata/data_A1.ldif",
         "--backup-dir=$backup_dir",
     ) == 0,
     'first backup should run'
@@ -50,8 +50,8 @@ is( @revs, 1, 'should have one GIT revision' );
 ok(
     system(
         'perl',
-        "@builddir@/ldap-git-backup",
-        "--ldif-cmd=cat @srcdir@/t/testdata/data_A2.ldif",
+        "@abs_top_builddir@/ldap-git-backup",
+        "--ldif-cmd=cat @abs_top_srcdir@/t/testdata/data_A2.ldif",
         "--backup-dir=$backup_dir",
     ) == 0,
     'second backup should run'

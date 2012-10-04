@@ -13,7 +13,7 @@ my $err;
 my $cmd;
 
 $cmd = [
-    '@builddir@/t/../ldap-git-backup',
+    '@abs_top_builddir@/ldap-git-backup',
     '--help',
 ];
 ok( run($cmd, \$in, \$out, \$err), 'option --help should be allowed' );

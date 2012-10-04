@@ -32,6 +32,3 @@ ldap-git-backup: ldap-git-backup.in
 
 check-local:
 	prove t
-
-clean-local:
-	rm -f t/t

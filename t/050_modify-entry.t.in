@@ -6,7 +6,7 @@ use English qw( -no_match_vars );
 
 use Test::More;
 
-require "@srcdir@/t/test-helper.pm";
+require "@abs_top_builddir@/t/test-helper.pm";
 Test::Helper->import();
 
 use Git;
@@ -18,8 +18,8 @@ my $backup_dir = tempdir( CLEANUP => 1 );
 ok(
     system(
         'perl',
-        "@builddir@/ldap-git-backup",
-        "--ldif-cmd=cat @srcdir@/t/testdata/data_C1.ldif",
+        "@abs_top_builddir@/ldap-git-backup",
+        "--ldif-cmd=cat @abs_top_srcdir@/t/testdata/data_C1.ldif",
         "--backup-dir=$backup_dir",
     ) == 0,
     'first backup with all entries should run'
@@ -41,8 +41,8 @@ check_directory_list($backup_dir, qw(
 ok(
     system(
         'perl',
-        "@builddir@/ldap-git-backup",
-        "--ldif-cmd=cat @srcdir@/t/testdata/data_C2.ldif",
+        "@abs_top_builddir@/ldap-git-backup",
+        "--ldif-cmd=cat @abs_top_srcdir@/t/testdata/data_C2.ldif",
         "--backup-dir=$backup_dir",
     ) == 0,
     'second backup with modified entry should run'
@@ -64,8 +64,8 @@ check_directory_list($backup_dir, qw(
 ok(
     system(
         'perl',
-        "@builddir@/ldap-git-backup",
-        "--ldif-cmd=cat @srcdir@/t/testdata/data_C3.ldif",
+        "@abs_top_builddir@/ldap-git-backup",
+        "--ldif-cmd=cat @abs_top_srcdir@/t/testdata/data_C3.ldif",
         "--backup-dir=$backup_dir",
     ) == 0,
     'third backup with insignificant DN changes should run'
@@ -110,8 +110,8 @@ check_directory_list($backup_dir, qw(
 ok(
     system(
         'perl',
-        "@builddir@/ldap-git-backup",
-        "--ldif-cmd=cat @srcdir@/t/testdata/data_C3.ldif",
+        "@abs_top_builddir@/ldap-git-backup",
+        "--ldif-cmd=cat @abs_top_srcdir@/t/testdata/data_C3.ldif",
         "--backup-dir=$backup_dir",
     ) == 0,
     'forth backup with no change of LDIFs but extra file'

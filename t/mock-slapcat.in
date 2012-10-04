@@ -37,12 +37,12 @@ if ($show_count) {
 my $count = read_count();
 my $ldif;
 if ($count < 1) {
-    open my $in, '<', "@srcdir@/t/testdata/data0.ldif";
+    open my $in, '<', "@abs_top_srcdir@/t/testdata/data0.ldif";
     $ldif = do { local $RS; <$in> };
     close $in;
 }
 else {
-    open my $in, '<', "@srcdir@/t/testdata/data1.ldif";
+    open my $in, '<', "@abs_top_srcdir@/t/testdata/data1.ldif";
     $ldif = do { local $RS; <$in> };
     close $in;
 }

@@ -6,9 +6,9 @@ use English qw( -no_match_vars );
 
 use Test::More;
 
-require "@builddir@/ldap-git-backup";
+require "@abs_top_builddir@/ldap-git-backup";
 
-my $ldif_cmd  = "cat @srcdir@/t/testdata/data_A1.ldif";
+my $ldif_cmd  = "cat @abs_top_srcdir@/t/testdata/data_A1.ldif";
 my $ldif_aref = LDAP::Utils::read_ldif($ldif_cmd);
 ok(@$ldif_aref == 2, 'simple LDIF testdata should have 2 entries');
 

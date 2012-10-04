@@ -19,8 +19,8 @@ $ENV{TZ} = 'UTC';  # choose the time zone for our test
 ok(
     system(
         'perl',
-        "@builddir@/ldap-git-backup",
-        "--ldif-cmd=cat @srcdir@/t/testdata/data_C1.ldif",
+        "@abs_top_builddir@/ldap-git-backup",
+        "--ldif-cmd=cat @abs_top_srcdir@/t/testdata/data_C1.ldif",
         "--backup-dir=$backup_dir",
         '--commit-msg=foo bar',
         "--commit-date=$now_string",
@@ -37,16 +37,16 @@ is($logs[2], qq{Date:   $now_string +0000}, 'git log has the custom commit time'
 ok(
     system(
         'perl',
-        "@builddir@/ldap-git-backup",
-        "--ldif-cmd=cat @srcdir@/t/testdata/data_C2.ldif",
+        "@abs_top_builddir@/ldap-git-backup",
+        "--ldif-cmd=cat @abs_top_srcdir@/t/testdata/data_C2.ldif",
         "--backup-dir=$backup_dir",
         '--commit-msg=foo bar',
-        "--commit-date=@srcdir@/t/testdata/data_C2.ldif",
+        "--commit-date=@abs_top_srcdir@/t/testdata/data_C2.ldif",
     ) == 0,
     'second backup with file timestamp as commit time'
 );
 
-my $filetimestamp = gmtime(stat("@srcdir@/t/testdata/data_C2.ldif")->mtime());
+my $filetimestamp = gmtime(stat("@abs_top_srcdir@/t/testdata/data_C2.ldif")->mtime());
 $filetimestamp =~ s{  }{ };  # git prints only one space for one-digit days
 @logs = $repo->command('log', '-1');
 is($logs[2], qq{Date:   $filetimestamp +0000}, 'git log has the commit time from the file timestamp');

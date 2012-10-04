@@ -6,7 +6,7 @@ use English qw( -no_match_vars );
 
 use Test::More;
 
-require "@builddir@/ldap-git-backup";
+require "@abs_top_builddir@/ldap-git-backup";
 
 for my $test_case (
     {
@@ -59,7 +59,7 @@ exit 0;
 sub read_first_ldif {
     my ($ldif_file) = @_;
 
-    my $ldif_aref = LDAP::Utils::read_ldif("cat @srcdir@/t/testdata/$ldif_file.ldif");
+    my $ldif_aref = LDAP::Utils::read_ldif("cat @abs_top_srcdir@/t/testdata/$ldif_file.ldif");
     ok(@$ldif_aref == 1, 'count one entry');
 
     return ${$ldif_aref}[0];
