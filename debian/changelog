@@ -1,8 +1,12 @@
 ldap-git-backup (1.0.3-1) unstable; urgency=low
 
   * fixed autoconf directory variables
+  * better watch file. Thanks to Bart Martens.
+  * mention co-maintainer in debian/control
+  * mention people/thanks in README
+  * use .mdown file ending for README
 
- -- Elmar S. Heeb <elmar@heebs.ch>  Thu, 04 Oct 2012 16:44:30 +0200
+ -- Elmar S. Heeb <elmar@heebs.ch>  Sun, 16 Dec 2012 15:11:46 +0100
 
 ldap-git-backup (1.0.2-1) unstable; urgency=low
 
