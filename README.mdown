@@ -112,6 +112,6 @@ Since reliable backups are important <code>safe-ldif</code> is the default.
 
 Over time various people contributed with discussions, ideas, code, and bug reports.
 
-- Axel Beckert <abe@debian.org> (co-maintainer)
-- Florian Ernst <florian_ernst@gmx.net>
-- Bart Martens <bartm@debian.org>
+- Axel Beckert mailto:abe@debian.org (co-maintainer)
+- Florian Ernst mailto:florian\_ernst@gmx.net
+- Bart Martens mailto:bartm@debian.org
