@@ -107,3 +107,11 @@ With OpenLDAP the command <code>slapcat</code> is meant to produce a snapshot LD
 To make the backups a bit more robust we can trade speed with reliability and call the <code>--ldif-cmd</code> (i.e., <code>slapcat</code>) multiple times to verify the backup.  <code>safe-ldif</code> does just this and writes the last dump as soon as two consecutive outputs result in the same number of LDIF stanzas.  This accomodates LDAP directories where attributes may be updated relatively frequently but the number of entries changes only rarely.
 
 Since reliable backups are important <code>safe-ldif</code> is the default.
+
+## Thanks
+
+Over time various people contributed with discussions, ideas, code, and bug reports.
+
+- Axel Beckert <abe@debian.org> (co-maintainer)
+- Florian Ernst <florian_ernst@gmx.net>
+- Bart Martens <bartm@debian.org>
