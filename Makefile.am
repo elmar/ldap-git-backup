@@ -9,7 +9,8 @@ man_MANS      = ldap-git-backup.1 safe-ldif.1
 CLEANFILES = $(sbin_SCRIPTS) $(check_SCRIPTS) $(man_MANS)
 EXTRA_DIST = \
 	ldap-git-backup.in \
-	README.md \
+	README.mdown \
+	build-all \
 	examples \
 	ChangeLog \
 	t/testdata

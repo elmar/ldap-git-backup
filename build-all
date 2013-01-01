@@ -1,0 +1,16 @@
+#!/bin/sh
+# vim: filetype=sh :
+
+set -e
+
+test -f ./configure.ac || (echo 'not in source directory' ; exit 1)
+autoreconf --force --install
+./configure
+make
+make check
+make distcheck
+mv *.tar.gz ../"$(echo *.tar.gz | sed -e 's/backup-/backup_/' -e 's/\.tar/.orig.tar/')"
+
+make distclean
+debuild "$@"
+debclean
