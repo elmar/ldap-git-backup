@@ -3,7 +3,7 @@ Section: admin
 Priority: optional
 Maintainer: Elmar S. Heeb <elmar@heebs.ch>
 Uploaders: Axel Beckert <abe@debian.org>
-Build-Depends: debhelper (>= 7.0.50~), autotools-dev, git
+Build-Depends: debhelper (>= 7.0.50~), autotools-dev, git, libipc-run-perl
 Standards-Version: 3.9.3
 Homepage: https://github.com/elmar/ldap-git-backup
 Vcs-Git: git://github.com/elmar/ldap-git-backup.git
