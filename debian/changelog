@@ -1,3 +1,9 @@
+ldap-git-backup (1.0.3-2) unstable; urgency=low
+
+  * clean up of Depends and Build-Depends
+
+ -- Elmar S. Heeb <elmar@heebs.ch>  Thu, 03 Jan 2013 15:07:33 +0100
+
 ldap-git-backup (1.0.3-1) unstable; urgency=low
 
   * fixed autoconf directory variables
