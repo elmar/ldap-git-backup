@@ -115,3 +115,4 @@ Over time various people contributed with discussions, ideas, code, and bug repo
 - Axel Beckert <abe@debian.org> (co-maintainer)
 - Florian Ernst <florian\_ernst@gmx.net>
 - Bart Martens <bartm@debian.org>
+- Hans Spaans <hans.spaans@nexit.nl>
