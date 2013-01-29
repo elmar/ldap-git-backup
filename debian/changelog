@@ -3,6 +3,7 @@ ldap-git-backup (1.0.4-1) unstable; urgency=low
   * create backup directory with default mode of 0700
     fixes CVE-2013-1425 (local information disclosure)
     Thanks to Hans Spaans <hans.spaans@nexit.nl>
+    (Closes: #699227)
 
  -- Elmar S. Heeb <elmar@heebs.ch>  Mon, 28 Jan 2013 19:05:13 +0000
 
