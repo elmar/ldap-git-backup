@@ -31,5 +31,5 @@ ldap-git-backup: ldap-git-backup.in
 	chmod a+x $@.tmp
 	mv $@.tmp $@
 
-check-local:
+check-local: ldap-git-backup
 	prove t
