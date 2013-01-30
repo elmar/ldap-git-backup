@@ -36,6 +36,9 @@ sub main {
 
     my $ldif_aref = LDAP::Utils::read_ldif($ldif_cmd);
     make_path($backup_dir, {mode => 0700});
+    my $mode = stat($backup_dir)->mode;
+    warn "backup directory $backup_dir is world readable\n" if $mode & 05;
+    warn "backup directory $backup_dir is world writable\n" if $mode & 02;
     chdir($backup_dir);
     Git::command('init');
     my $repo = Git->repository(Directory => $backup_dir);

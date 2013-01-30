@@ -1,0 +1,47 @@
+#!/usr/bin/env perl
+use strict;
+use warnings;
+use 5.010;
+use English qw( -no_match_vars );
+use autodie;
+use File::Path qw( make_path );
+
+use Test::More;
+
+require "@abs_top_builddir@/t/test-helper.pm";
+Test::Helper->import();
+
+use IPC::Run qw( run );
+my $in = '';
+my $out;
+my $err;
+my $cmd;
+
+use Git;
+use File::Temp qw( tempdir );
+
+# start with a existing directory with world read/write permissions
+# and check the warnings
+
+my $tmpdir = tempdir( CLEANUP => 0 );
+my $backup_dir = "$tmpdir/backup-$PID";
+
+umask(0);
+make_path($backup_dir, {mode => 0777}); # bad permissions, information disclosure
+ok( (-e $backup_dir), 'backup directory should exist at first' );
+is( (file_mode($backup_dir) & 07) , 07, 'backup dir should have world read/write permissions' );
+$cmd = [
+    'perl',
+    "@abs_top_builddir@/ldap-git-backup",
+    "--ldif-cmd=cat @abs_top_srcdir@/t/testdata/data_A1.ldif",
+    "--backup-dir=$backup_dir",
+];
+ok(
+    run($cmd, \$in, \$out, \$err),
+    'backup with existing directory should run'
+);
+like( $err, qr(world readable), 'should complain about world readable directory' );
+like( $err, qr(world writable), 'should complain about world writable directory' );
+
+# clean up test data
+done_testing();
