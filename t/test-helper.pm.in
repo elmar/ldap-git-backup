@@ -6,12 +6,14 @@ use warnings;
 use 5.010;
 use English qw( -no_match_vars );
 use autodie;
+use File::stat;
 
 use Test::More;
 
 use Exporter qw( import );
 our @EXPORT = qw(
     check_directory_list
+    file_mode
 );
 
 sub check_directory_list {
@@ -24,6 +26,12 @@ sub check_directory_list {
     is_deeply( \@file_list_actual, \@file_list_reference, 'check file list for completeness' );
 
     return;
+}
+
+sub file_mode {
+    my ($file) = @_;
+
+    return stat($file)->mode & 0777;
 }
 
 1;

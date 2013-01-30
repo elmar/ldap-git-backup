@@ -32,7 +32,7 @@ ok(
     'first backup should run'
 );
 ok( (-d $backup_dir), 'backup directory should have been created' );
-my $mode = ((stat($backup_dir))[2]) & 0777; # mask only permission part of mode
+my $mode = file_mode($backup_dir);
 $mode = sprintf("%#o", $mode); # string in octal to help readability of assertion
 is( $mode, '0700', 'new backup directory should be created with mode 0700 (rwx------)' );
 ok( (-d "$backup_dir/.git"), 'backup directory should be a GIT repository now');
