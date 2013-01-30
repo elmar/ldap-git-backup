@@ -1,3 +1,9 @@
+ldap-git-backup (1.0.5-1) unstable; urgency=low
+
+  * issue warning for world read/writable backup directory
+
+ -- Elmar S. Heeb <elmar@heebs.ch>  Wed, 30 Jan 2013 17:57:33 +0000
+
 ldap-git-backup (1.0.4-1) unstable; urgency=low
 
   * create backup directory with default mode of 0700
