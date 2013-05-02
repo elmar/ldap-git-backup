@@ -1,3 +1,9 @@
+ldap-git-backup (1.0.6-1) unstable; urgency=low
+
+  * added option --no-gc to suppress git garbage collection
+
+ -- Elmar S. Heeb <elmar@heebs.ch>  Thu, 02 May 2013 14:06:34 +0200
+
 ldap-git-backup (1.0.5-1) unstable; urgency=low
 
   * issue warning for world read/writable backup directory

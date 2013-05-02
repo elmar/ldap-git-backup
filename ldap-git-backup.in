@@ -19,12 +19,14 @@ sub main {
     my $backup_dir  = '/var/backups/ldap';
     my $commit_msg  = 'ldap-git-backup';
     my $commit_date = time();
+    my $gc = 1;
     my $help;
     GetOptions(
         'ldif-cmd=s'    => \$ldif_cmd,
         'backup-dir=s'  => \$backup_dir,
         'commit-msg=s'  => \$commit_msg,
         'commit-date=s' => \$commit_date,
+        'gc!'           => \$gc,
         'help'          => \$help,
     );
     pod2usage('-verbose' => 2, '-exit_status' => 0) if $help;
@@ -60,7 +62,7 @@ sub main {
     $repo->command('rm', (keys %files_before)) if %files_before;
 
     $repo->command('commit', "--message=$commit_msg", "--date=$commit_date");
-    $repo->command('gc', '--quiet');
+    $repo->command('gc', '--quiet') if $gc;
 }
 
 package LDAP::Utils;
@@ -223,6 +225,13 @@ Specify a custom commit message.  Default: ldap-git-backup
 =item B<--commit-date E<lt>fileE<gt>>
 
 Specify a custom commit date.  If a file is given its modification time is used.
+
+=item B<--no-gc>
+
+Do not perform a garbage collection (git gc) after checking in the new backup.
+By default gc is done so as to keep the size of the backup down.  You may want
+to skip gc for the occasional backup run but leave it on for the scheduled
+backups.
 
 =item B<--help>
 
