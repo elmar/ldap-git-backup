@@ -3,8 +3,7 @@ Section: admin
 Priority: optional
 Maintainer: Elmar S. Heeb <elmar@heebs.ch>
 Uploaders: Axel Beckert <abe@debian.org>
-Build-Depends: autotools-dev,
-               debhelper (>= 7.0.50~),
+Build-Depends: debhelper (>= 7.0.50~),
                dh-autoreconf,
                git,
                libipc-run-perl,
