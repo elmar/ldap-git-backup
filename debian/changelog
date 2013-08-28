@@ -1,3 +1,9 @@
+ldap-git-backup (1.0.6-2) UNRELEASED; urgency=low
+
+  * Bump Standards-Version to 3.9.4 (no changes)
+
+ -- Axel Beckert <abe@debian.org>  Wed, 28 Aug 2013 16:43:58 +0200
+
 ldap-git-backup (1.0.6-1) unstable; urgency=low
 
   * added option --no-gc to suppress git garbage collection

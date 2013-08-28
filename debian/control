@@ -8,7 +8,7 @@ Build-Depends: autotools-dev,
                git,
                libipc-run-perl,
                perl-doc
-Standards-Version: 3.9.3
+Standards-Version: 3.9.4
 Homepage: https://github.com/elmar/ldap-git-backup
 Vcs-Git: git://github.com/elmar/ldap-git-backup.git
 Vcs-Browser: https://github.com/elmar/ldap-git-backup
