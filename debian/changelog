@@ -1,6 +1,8 @@
 ldap-git-backup (1.0.6-2) UNRELEASED; urgency=low
 
   * Bump Standards-Version to 3.9.4 (no changes)
+  * Remove override for dh_installchangelogs. Was only necessary for one
+    day due to a bug in debhelper. See #711131.
 
  -- Axel Beckert <abe@debian.org>  Wed, 28 Aug 2013 16:43:58 +0200
 
