@@ -7,6 +7,7 @@ ldap-git-backup (1.0.6-2) UNRELEASED; urgency=low
   * Bump debhelper compatibility to 9
     + Gets rid of the dh_pysupport deprecation warning.
     + Update versioned debhelper build-dependency accordingly
+  * Update authors and years in debian/copyright
 
  -- Axel Beckert <abe@debian.org>  Wed, 28 Aug 2013 16:43:58 +0200
 
