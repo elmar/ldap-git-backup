@@ -9,6 +9,7 @@ ldap-git-backup (1.0.6-2) UNRELEASED; urgency=low
     + Update versioned debhelper build-dependency accordingly
   * Update authors and years in debian/copyright
   * Also check for executable /usr/sbin/slapcat in default cron-job.
+  * Use "if [ … ]; then …; fi" instead of "[ … ] && …" in cron-job.
 
  -- Axel Beckert <abe@debian.org>  Wed, 28 Aug 2013 16:43:58 +0200
 
