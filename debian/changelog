@@ -1,4 +1,4 @@
-ldap-git-backup (1.0.6-2) UNRELEASED; urgency=low
+ldap-git-backup (1.0.6-2) unstable; urgency=low
 
   * Bump Standards-Version to 3.9.4 (no changes)
   * Remove override for dh_installchangelogs. Was only necessary for one
@@ -11,7 +11,7 @@ ldap-git-backup (1.0.6-2) UNRELEASED; urgency=low
   * Also check for executable /usr/sbin/slapcat in default cron-job.
   * Use "if [ … ]; then …; fi" instead of "[ … ] && …" in cron-job.
 
- -- Axel Beckert <abe@debian.org>  Wed, 28 Aug 2013 16:43:58 +0200
+ -- Axel Beckert <abe@debian.org>  Thu, 17 Oct 2013 17:25:03 +0200
 
 ldap-git-backup (1.0.6-1) unstable; urgency=low
 
