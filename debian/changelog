@@ -2,6 +2,7 @@ ldap-git-backup (1.0.7-1) UNRELEASED; urgency=medium
 
   * fix git tests when no global user/email config is set
     (Closes: #749189)
+  * use explicit path for perl in scripts (Closes: #747222)
 
  -- Elmar S. Heeb <elmar@heebs.ch>  Sat, 31 May 2014 14:25:36 +0200
 

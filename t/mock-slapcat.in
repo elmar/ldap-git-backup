@@ -1,4 +1,4 @@
-#!/usr/bin/env perl
+#!/usr/bin/perl
 # -*- perl -*-
 # vim: set filetype=perl :
 use strict;
