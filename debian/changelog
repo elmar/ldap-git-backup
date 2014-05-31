@@ -1,3 +1,10 @@
+ldap-git-backup (1.0.7-1) UNRELEASED; urgency=medium
+
+  * fix git tests when no global user/email config is set
+    (Closes: #749189)
+
+ -- Elmar S. Heeb <elmar@heebs.ch>  Sat, 31 May 2014 14:25:36 +0200
+
 ldap-git-backup (1.0.6-2) unstable; urgency=low
 
   * Bump Standards-Version to 3.9.4 (no changes)

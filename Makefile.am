@@ -32,4 +32,6 @@ ldap-git-backup: ldap-git-backup.in
 	mv $@.tmp $@
 
 check-local: ldap-git-backup
+	GIT_AUTHOR_NAME=Test    GIT_AUTHOR_EMAIL=test@example.org \
+	GIT_COMMITTER_NAME=Test GIT_COMMITTER_EMAIL=test@example.org \
 	prove t
