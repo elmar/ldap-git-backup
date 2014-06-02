@@ -211,6 +211,29 @@ for a backup.  It should contain all entries necessary to restore the LDAP
 database.  By default C<@sbindir@/safe-ldif> is taken which calls
 C</usr/sbin/slapcat> from OpenLDAP.
 
+If you have access to an LDAP server over the network you can use ldapsearch as
+your C<--ldif-cmd>.  Example:
+
+=over
+
+  --ldif-cmd 'ldapsearch -u -x -o ldif-wrap=no \
+  -H ldaps://ldap.example.org -b dc=example,dc=org'
+
+=back
+
+If you need to log in to a certain server first you would use something along
+the lines of
+
+=over
+
+  --ldif-cmd 'ssh host.example.org ldapsearch -u -x -o ldif-wrap=no \
+  -H ldaps://ldap.example.org -b dc=example,dc=org'
+
+=back
+
+You can make this as complicated as you like as long as it fits into a one line
+command.  If you need more you may want to create a script for the purpose.
+
 =item B<--backup-dir E<lt>backup_directoryE<gt>>
 
 Specify the directory where the GIT repository for the versioned backup is held.
@@ -219,6 +242,14 @@ Default: F</var/backups/ldap>
 =item B<--commit-msg E<lt>commit_stringE<gt>>
 
 Specify a custom commit message.  Default: ldap-git-backup
+
+Example:
+
+=over
+
+  --commit-msg "Import $(date --rfc-3339=seconds)" >>
+
+=back
 
 =item B<--commit-date E<lt>date_stringE<gt>>
 
