@@ -252,7 +252,7 @@ Example:
 
 =over
 
-  --commit-msg "Import $(date --rfc-3339=seconds)" >>
+  --commit-msg "Import $(date --rfc-3339=seconds)"
 
 =back
 
