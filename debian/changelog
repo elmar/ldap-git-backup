@@ -9,6 +9,7 @@ ldap-git-backup (1.0.7-1) unstable; urgency=medium
     Thanks: Paul Wise <pabs@debian.org>
   * support relative path in --backup-dir (Closes: #729662)
     Thanks: Axel Beckert <abe@debian.org>
+  * Bump Standards-Version to 3.9.5
 
  -- Elmar S. Heeb <elmar@heebs.ch>  Mon, 02 Jun 2014 15:17:47 +0200
 
