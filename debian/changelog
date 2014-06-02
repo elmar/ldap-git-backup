@@ -7,6 +7,8 @@ ldap-git-backup (1.0.7-1) UNRELEASED; urgency=medium
     Thanks: Andras Korn <korn-debbugs@elan.rulez.org>
   * added some examples to man page (Closes: #729623)
     Thanks: Paul Wise <pabs@debian.org>
+  * support relative path in --backup-dir (Closes: #729662)
+    Thanks: Axel Beckert <abe@debian.org>
 
  -- Elmar S. Heeb <elmar@heebs.ch>  Sat, 31 May 2014 14:25:36 +0200
 

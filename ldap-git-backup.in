@@ -6,6 +6,7 @@ use 5.010;
 use English qw( -no_match_vars);
 use autodie;
 use File::stat;
+use Cwd;
 
 main() unless caller(0);
 
@@ -34,6 +35,10 @@ sub main {
 
     if ( -e $commit_date ) {
         $commit_date = stat($commit_date)->mtime();
+    }
+
+    if ( $backup_dir =~ m{\A [^/]}xms ) {
+        $backup_dir = getcwd() . '/' . $backup_dir;
     }
 
     my $ldif_aref = LDAP::Utils::read_ldif($ldif_cmd);
