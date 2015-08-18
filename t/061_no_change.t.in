@@ -1,0 +1,44 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+use 5.010;
+use English qw( -no_match_vars );
+
+use Test::More;
+
+use File::stat;
+use File::Temp qw( tempdir );
+use Git;
+
+my $backup_dir = tempdir( CLEANUP => 0 );
+
+# ----- first backup -----
+ok(
+    system(
+        "@abs_top_builddir@/ldap-git-backup",
+        "--ldif-cmd=cat @abs_top_srcdir@/t/testdata/data_C1.ldif",
+        "--backup-dir=$backup_dir",
+    ) == 0,
+    'first backup'
+);
+my $repo = Git->repository( Directory => $backup_dir );
+my $first_commit = $repo->command_oneline('log');
+say $first_commit;
+
+# ----- second backup / no changes -----
+ok(
+    system(
+        "@abs_top_builddir@/ldap-git-backup",
+        "--ldif-cmd=cat @abs_top_srcdir@/t/testdata/data_C1.ldif",
+        "--backup-dir=$backup_dir",
+    ) == 0,
+    'second backup with no changes'
+);
+
+is(
+    $repo->command_oneline('log'),
+    $first_commit,
+    'commit should be the same if there is no change',
+);
+
+done_testing();
