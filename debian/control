@@ -15,7 +15,10 @@ Vcs-Browser: https://github.com/elmar/ldap-git-backup
 
 Package: ldap-git-backup
 Architecture: all
-Depends: git, perl, perl-doc, ${misc:Depends}
+Depends: git,
+         perl,
+         perl-doc,
+         ${misc:Depends}
 Suggests: slapd
 Enhances: slapd
 Description: Back up LDAP database in an Git repository
