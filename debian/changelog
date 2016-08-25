@@ -1,8 +1,8 @@
 ldap-git-backup (1.0.8-1) UNRELEASED; urgency=medium
 
-  * 
+  * Declare compliance with Debian Policy 3.9.8. (No changes needed.)
 
- -- Elmar S. Heeb <elmar@heebs.ch>  Wed, 04 Jun 2014 16:20:36 +0200
+ -- Axel Beckert <abe@debian.org>  Thu, 25 Aug 2016 15:19:44 +0200
 
 ldap-git-backup (1.0.7-1) unstable; urgency=medium
 
