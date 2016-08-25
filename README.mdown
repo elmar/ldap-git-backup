@@ -7,6 +7,19 @@ Back up your LDAP data in a Git repository
 
 ### Installation
 
+#### On Debian and Derivatives (Ubuntu, etc.)
+
+On Debian and derivatives,
+[ldap-git-backup is available as package](https://packages.debian.org/jessie/ldap-git-backup)
+since Debian 8 Jessie.
+
+Call the following command with root permissions to install it from
+the official APT repositories:
+
+    apt-get install ldap-git-backup
+
+#### From Source
+
     wget https://github.com/downloads/elmar/ldap-git-backup/ldap-git-backup.tar.gz
     tar xzf ldap-git-backup.tar.gz
     cd ldap-git-backup-1.0
