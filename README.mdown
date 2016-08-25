@@ -22,7 +22,7 @@ the official APT repositories:
 
     wget https://github.com/downloads/elmar/ldap-git-backup/ldap-git-backup.tar.gz
     tar xzf ldap-git-backup.tar.gz
-    cd ldap-git-backup-1.0
+    cd ldap-git-backup-*
     ./configure
     make
     make check
