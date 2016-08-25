@@ -1,6 +1,7 @@
 ldap-git-backup (1.0.8-1) UNRELEASED; urgency=medium
 
   * Declare compliance with Debian Policy 3.9.8. (No changes needed.)
+  * Switch Vcs-Git header from git:// to https://.
 
  -- Axel Beckert <abe@debian.org>  Thu, 25 Aug 2016 15:19:44 +0200
 
