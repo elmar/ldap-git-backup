@@ -1,6 +1,7 @@
 ldap-git-backup (1.0.8-1) UNRELEASED; urgency=medium
 
-  * Declare compliance with Debian Policy 3.9.8. (No changes needed.)
+  * Declare compliance with Debian Policy 4.1.1.
+    + Switch debian/copyright DEP5 format URL to HTTPS.
   * Switch Vcs-Git header from git:// to https://.
   * Apply "wrap-and-sort -a".
 
