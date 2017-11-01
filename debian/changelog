@@ -1,5 +1,6 @@
 ldap-git-backup (1.0.8-1) UNRELEASED; urgency=medium
 
+  * New minor upstream bug fix release.
   * Declare compliance with Debian Policy 4.1.1.
     + Switch debian/copyright DEP5 format URL to HTTPS.
   * Switch Vcs-Git header from git:// to https://.
