@@ -4,6 +4,7 @@ ldap-git-backup (1.0.8-1) UNRELEASED; urgency=medium
     + Switch debian/copyright DEP5 format URL to HTTPS.
   * Switch Vcs-Git header from git:// to https://.
   * Apply "wrap-and-sort -a".
+  * debian/copyright: Switch GPL URL to HTTPS.
 
  -- Axel Beckert <abe@debian.org>  Thu, 25 Aug 2016 15:19:44 +0200
 
