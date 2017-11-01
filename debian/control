@@ -3,8 +3,7 @@ Section: admin
 Priority: optional
 Maintainer: Elmar S. Heeb <elmar@heebs.ch>
 Uploaders: Axel Beckert <abe@debian.org>
-Build-Depends: debhelper (>= 9~),
-               dh-autoreconf,
+Build-Depends: debhelper (>= 10),
                git,
                libipc-run-perl,
                perl-doc

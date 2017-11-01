@@ -5,6 +5,10 @@ ldap-git-backup (1.0.8-1) UNRELEASED; urgency=medium
   * Switch Vcs-Git header from git:// to https://.
   * Apply "wrap-and-sort -a".
   * debian/copyright: Switch GPL URL to HTTPS.
+  * Bump debhelper compatibility level to 10.
+    + Update versioned debhelper build-dependency accordingly.
+    + Drop "--with autoreconf" and dependency on dh-autoreconf, both are
+      now implicit.
 
  -- Axel Beckert <abe@debian.org>  Thu, 25 Aug 2016 15:19:44 +0200
 
