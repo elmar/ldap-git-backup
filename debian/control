@@ -11,6 +11,7 @@ Standards-Version: 4.1.1
 Homepage: https://github.com/elmar/ldap-git-backup
 Vcs-Git: https://github.com/elmar/ldap-git-backup.git
 Vcs-Browser: https://github.com/elmar/ldap-git-backup
+Rules-Requires-Root: no
 
 Package: ldap-git-backup
 Architecture: all
