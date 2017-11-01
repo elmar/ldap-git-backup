@@ -13,6 +13,7 @@ EXTRA_DIST = \
 	build-all \
 	examples \
 	ChangeLog \
+	redhat/ldap-git-backup.spec \
 	t/testdata
 
 edit = sed \
