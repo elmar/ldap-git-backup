@@ -7,7 +7,7 @@ Build-Depends: debhelper (>= 10),
                git,
                libipc-run-perl,
                perl-doc
-Standards-Version: 4.1.1
+Standards-Version: 4.1.2
 Homepage: https://github.com/elmar/ldap-git-backup
 Vcs-Git: https://github.com/elmar/ldap-git-backup.git
 Vcs-Browser: https://github.com/elmar/ldap-git-backup
