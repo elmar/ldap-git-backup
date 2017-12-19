@@ -1,4 +1,4 @@
-ldap-git-backup (1.0.8-1) UNRELEASED; urgency=medium
+ldap-git-backup (1.0.8-1) unstable; urgency=medium
 
   * New minor upstream release
     + Documentation updates and fixes
@@ -15,7 +15,7 @@ ldap-git-backup (1.0.8-1) UNRELEASED; urgency=medium
       now implicit.
   * Set "Rules-Requires-Root: no".
 
- -- Axel Beckert <abe@debian.org>  Thu, 25 Aug 2016 15:19:44 +0200
+ -- Axel Beckert <abe@debian.org>  Wed, 20 Dec 2017 00:58:15 +0100
 
 ldap-git-backup (1.0.7-1) unstable; urgency=medium
 
