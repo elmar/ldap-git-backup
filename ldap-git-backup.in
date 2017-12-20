@@ -63,8 +63,7 @@ sub main {
         push(@filelist, $filename);
         delete($files_before{$filename});
     }
-    $repo->command('add', @filelist) if @filelist;
-    $repo->command('rm', (keys %files_before)) if %files_before;
+    $repo->command('add', '-A');
 
     $repo->command('commit', "--message=$commit_msg", "--date=$commit_date");
     $repo->command('gc', '--quiet') if $gc;
