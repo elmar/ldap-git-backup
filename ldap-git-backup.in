@@ -21,6 +21,9 @@ sub main {
     my $commit_msg  = 'ldap-git-backup';
     my $commit_date = time();
     my $gc = 1;
+    my $dn = 0;
+    my $sort = 0;
+    my $sort_prefix = 5;
     my $help;
     GetOptions(
         'ldif-cmd=s'    => \$ldif_cmd,
@@ -28,6 +31,9 @@ sub main {
         'commit-msg=s'  => \$commit_msg,
         'commit-date=s' => \$commit_date,
         'gc!'           => \$gc,
+        'dn'            => \$dn,
+        'sort'          => \$sort,
+        'sort-prefix=s' => \$sort_prefix,
         'help'          => \$help,
     );
     pod2usage('-verbose' => 2, '-exit_status' => 0) if $help;
@@ -39,6 +45,11 @@ sub main {
 
     if ( $backup_dir =~ m{\A [^/]}xms ) {
         $backup_dir = getcwd() . '/' . $backup_dir;
+    }
+
+    if ((!($sort_prefix =~ m/^\d+\z/)) || ($sort_prefix == 0)) {
+        die("Error: invalid --sort_prefix_length\n" .
+            "Please only use whole numbers > 0.\n");
     }
 
     my $ldif_aref = LDAP::Utils::read_ldif($ldif_cmd);
@@ -55,13 +66,22 @@ sub main {
     for my $f (@filelist) { $files_before{$f} = 1 }
 
     @filelist = ();
+    my $i=0;
     for my $ldif (@$ldif_aref) {
         my $filename = LDAP::Utils::filename($ldif);
+        if ($dn && $sort) {
+            $filename = LDAP::Utils::counter($i, $sort_prefix) . '_' . LDAP::Utils::dn($ldif) . '_' . $filename;
+        } elsif ($sort) {
+            $filename = LDAP::Utils::counter($i, $sort_prefix) . '_' . $filename;
+        } elsif ($dn) {
+            $filename = LDAP::Utils::dn($ldif) . '_' . $filename;
+        }
         open(my $fh, '>', "$backup_dir/$filename");
         print {$fh} $ldif;
         close($fh);
         push(@filelist, $filename);
         delete($files_before{$filename});
+        $i++;
     }
     $repo->command('add', @filelist) if @filelist;
     $repo->command('rm', (keys %files_before)) if %files_before;
@@ -123,6 +143,12 @@ sub filename {
     }
 
     return $filename . '.ldif';
+}
+
+sub counter {
+    my ($i, $len) = @_;
+    my $counter = sprintf("%0." . $len . "x",$i);
+    return $counter
 }
 
 sub dn {
@@ -268,6 +294,25 @@ Do not perform a garbage collection (git gc) after checking in the new backup.
 By default gc is done so as to keep the size of the backup down.  You may want
 to skip gc for the occasional backup run but leave it on for the scheduled
 backups.
+
+=item B<--dn>
+
+Prefix the filename with the entry's DN. Warning: using this option may break
+the backup if you have very long DNs and the resulting filename exceeds the
+maximum filename length of the underlying filesystem.
+
+=item B<--sort>
+
+Prefix the filename with an incremental hexadecimal number padded with zeros.
+This option is useful when the order of entries is important for the restore
+scenario, for example if you want to restore a backup of cn=config or if you
+want to restore only parts of a database using ldapadd while slapd is running.
+Consider using ldapsearch as --ldif-cmd in such scenarios for optimal sorting.
+
+=item B<--sort-prefix>
+
+The number of zeros the hexadecimal prefix is padded with when using --sort.
+Default: 5 (suitable for correct sorting of up to ~1M entries).
 
 =item B<--help>
 
