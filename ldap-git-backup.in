@@ -70,11 +70,15 @@ sub main {
     for my $ldif (@$ldif_aref) {
         my $filename = LDAP::Utils::filename($ldif);
         if ($dn && $sort) {
-            $filename = LDAP::Utils::counter($i, $sort_prefix) . '_' . LDAP::Utils::dn($ldif) . '_' . $filename;
+            my $dn  = LDAP::Utils::file_dn($ldif);
+            my $cnt = LDAP::Utils::counter($i, $sort_prefix);
+            $filename = $cnt . '_' . $dn . '_' . $filename;
         } elsif ($sort) {
-            $filename = LDAP::Utils::counter($i, $sort_prefix) . '_' . $filename;
+            my $cnt = LDAP::Utils::counter($i, $sort_prefix);
+            $filename = $cnt . '_' . $filename;
         } elsif ($dn) {
-            $filename = LDAP::Utils::dn($ldif) . '_' . $filename;
+            my $dn  = LDAP::Utils::file_dn($ldif);
+            $filename = $dn . '_' . $filename;
         }
         open(my $fh, '>', "$backup_dir/$filename");
         print {$fh} $ldif;
@@ -162,6 +166,13 @@ sub dn {
     }
 
     return '';
+}
+
+sub file_dn {
+    my ($ldif) = @_;
+    my $dn = dn($ldif);
+    $dn =~ s#/##;
+    return $dn;
 }
 
 sub canonicalize_dn {
@@ -309,7 +320,7 @@ scenario, for example if you want to restore a backup of cn=config or if you
 want to restore only parts of a database using ldapadd while slapd is running.
 Consider using ldapsearch as --ldif-cmd in such scenarios for optimal sorting.
 
-=item B<--sort-prefix>
+=item B<--sort-prefix> E<lt>prefix_lengthE<gt>>
 
 The number of zeros the hexadecimal prefix is padded with when using --sort.
 Default: 5 (suitable for correct sorting of up to ~1M entries).
