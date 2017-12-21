@@ -79,7 +79,7 @@ sub main {
             my $cnt = LDAP::Utils::counter($i, $sort_prefix);
             $filename = $cnt . '_' . $filename;
         } elsif ($dn) {
-            my $dn  = LDAP::Utils::file_dn($ldif);
+            my $dn  = LDAP::Utils::file_dn_rev($ldif);
             $filename = $dn . '_' . $filename;
         }
         open(my $fh, '>', "$backup_dir/$filename");
@@ -188,6 +188,13 @@ sub file_dn {
     my ($ldif) = @_;
     my $dn = dn($ldif);
     $dn =~ s#/##;
+    return $dn;
+}
+
+sub file_dn_rev {
+    my ($ldif) = @_;
+    my $dn = file_dn($ldif);
+    $dn = join ",", reverse split /,/, $dn;
     return $dn;
 }
 
@@ -324,22 +331,23 @@ backups.
 
 =item B<--dn>
 
-Prefix the filename with the entry's DN. Warning: using this option may break
-the backup if you have very long DNs and the resulting filename exceeds the
-maximum filename length of the underlying filesystem.
+Prefix the filename with the entry's reversed DN. Or if used in conjunction with
+--sort using the entry's normal DN. This option is useful when the order of
+entries is important for the restore scenario, for example if you want to restore
+only parts of a database using ldapadd while slapd is running. Consider using
+ldapsearch as --ldif-cmd in such scenarios for optimal sorting. Warning: using
+this option may break the backup if you have very long DNs and the resulting
+filename exceeds the maximum filename length of the underlying filesystem.
 
 =item B<--sort>
 
 Prefix the filename with an incremental hexadecimal number padded with zeros.
-This option is useful when the order of entries is important for the restore
-scenario, for example if you want to restore a backup of cn=config or if you
-want to restore only parts of a database using ldapadd while slapd is running.
-Consider using ldapsearch as --ldif-cmd in such scenarios for optimal sorting.
+This option is useful to restore a backup of cn=config.
 
 =item B<--sort-prefix E<lt>prefix_lengthE<gt>>
 
 The number of zeros the hexadecimal prefix is padded with when using --sort.
-Default: 5 (suitable for correct sorting of up to ~1M entries).
+Default: 5
 
 =item B<--exclude-attrs E<lt>exclude_regexE<gt>>
 
