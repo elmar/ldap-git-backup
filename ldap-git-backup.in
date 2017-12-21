@@ -25,6 +25,7 @@ sub main {
     my $sort = 0;
     my $sort_prefix = 5;
     my $exclude_attrs = "";
+    my $suffix = "";
     my $help;
     GetOptions(
         'ldif-cmd=s'    => \$ldif_cmd,
@@ -36,6 +37,7 @@ sub main {
         'sort'          => \$sort,
         'sort-prefix=s' => \$sort_prefix,
         'exclude-attrs=s' => \$exclude_attrs,
+        'suffix=s'      => \$suffix,
         'help'          => \$help,
     );
     pod2usage('-verbose' => 2, '-exit_status' => 0) if $help;
@@ -72,14 +74,14 @@ sub main {
     for my $ldif (@$ldif_aref) {
         my $filename = LDAP::Utils::filename($ldif);
         if ($dn && $sort) {
-            my $dn  = LDAP::Utils::file_dn($ldif);
+            my $dn  = LDAP::Utils::file_dn($ldif, $suffix);
             my $cnt = LDAP::Utils::counter($i, $sort_prefix);
             $filename = $cnt . '_' . $dn . '_' . $filename;
         } elsif ($sort) {
             my $cnt = LDAP::Utils::counter($i, $sort_prefix);
             $filename = $cnt . '_' . $filename;
         } elsif ($dn) {
-            my $dn  = LDAP::Utils::file_dn_rev($ldif);
+            my $dn  = LDAP::Utils::file_dn_rev($ldif, $suffix);
             $filename = $dn . '_' . $filename;
         }
         open(my $fh, '>', "$backup_dir/$filename");
@@ -185,15 +187,18 @@ sub dn {
 }
 
 sub file_dn {
-    my ($ldif) = @_;
+    my ($ldif, $suffix) = @_;
     my $dn = dn($ldif);
+    if ($suffix ne "") {
+        $dn =~ s#$suffix$#suffix#;
+    }
     $dn =~ s#/##;
     return $dn;
 }
 
 sub file_dn_rev {
-    my ($ldif) = @_;
-    my $dn = file_dn($ldif);
+    my ($ldif, $suffix) = @_;
+    my $dn = file_dn($ldif, $suffix);
     $dn = join ",", reverse split /,/, $dn;
     return $dn;
 }
@@ -354,6 +359,10 @@ Default: 5
 Exclude all attributes matching the regular expression C<exclude_regex>. The
 regex is effectively enclosed with prefix C<^> and suffix C<: > to only match
 attribute names and results in C<^exclude_regex: >.
+
+=item B<--suffix E<lt>dn_suffixE<gt>>
+
+Replace the DN suffix of the backup with the string C<suffix> in the file name.
 
 =item B<--help>
 
