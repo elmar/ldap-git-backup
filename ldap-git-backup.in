@@ -24,6 +24,7 @@ sub main {
     my $dn = 0;
     my $sort = 0;
     my $sort_prefix = 5;
+    my $exclude_attrs = "";
     my $help;
     GetOptions(
         'ldif-cmd=s'    => \$ldif_cmd,
@@ -34,6 +35,7 @@ sub main {
         'dn'            => \$dn,
         'sort'          => \$sort,
         'sort-prefix=s' => \$sort_prefix,
+        'exclude-attrs=s' => \$exclude_attrs,
         'help'          => \$help,
     );
     pod2usage('-verbose' => 2, '-exit_status' => 0) if $help;
@@ -81,7 +83,21 @@ sub main {
             $filename = $dn . '_' . $filename;
         }
         open(my $fh, '>', "$backup_dir/$filename");
-        print {$fh} $ldif;
+        if ($exclude_attrs ne "") {
+            my @lines = split /\n/, $ldif;
+            my $n = 0;
+            while (my $l = $lines[$n]) {
+                if ($l =~ m/^$exclude_attrs: /) {
+                    while ($lines[++$n] && $lines[$n] =~ /^ /) {};
+                } else {
+                    print {$fh} $l."\n";
+                    $n++;
+                }
+            }
+            print {$fh} "\n";
+        } else {
+            print {$fh} $ldif;
+        }
         close($fh);
         push(@filelist, $filename);
         delete($files_before{$filename});
@@ -320,10 +336,16 @@ scenario, for example if you want to restore a backup of cn=config or if you
 want to restore only parts of a database using ldapadd while slapd is running.
 Consider using ldapsearch as --ldif-cmd in such scenarios for optimal sorting.
 
-=item B<--sort-prefix> E<lt>prefix_lengthE<gt>>
+=item B<--sort-prefix E<lt>prefix_lengthE<gt>>
 
 The number of zeros the hexadecimal prefix is padded with when using --sort.
 Default: 5 (suitable for correct sorting of up to ~1M entries).
+
+=item B<--exclude-attrs E<lt>exclude_regexE<gt>>
+
+Exclude all attributes matching the regular expression C<exclude_regex>. The
+regex is effectively enclosed with prefix C<^> and suffix C<: > to only match
+attribute names and results in C<^exclude_regex: >.
 
 =item B<--help>
 
