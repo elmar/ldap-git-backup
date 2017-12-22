@@ -26,7 +26,6 @@ sub main {
     my $sort_prefix = 5;
     my $exclude_attrs = "";
     my $suffix = "";
-    my $arg_max    = 1048576;
     my $help;
     GetOptions(
         'ldif-cmd=s'    => \$ldif_cmd,
@@ -39,7 +38,6 @@ sub main {
         'sort-prefix=s' => \$sort_prefix,
         'exclude-attrs=s' => \$exclude_attrs,
         'suffix=s'      => \$suffix,
-        'arg-max=s'     => \$arg_max,
         'help'          => \$help,
     );
     pod2usage('-verbose' => 2, '-exit_status' => 0) if $help;
@@ -56,11 +54,6 @@ sub main {
     if ((!($sort_prefix =~ m/^\d+\z/)) || ($sort_prefix == 0)) {
         die("Error: invalid --sort_prefix\n" .
             "Please only use whole numbers > 0\n");
-    }
-
-    if ((!($arg_max =~ m/^\d+\z/)) || ($arg_max < 1024)) {
-        die("Error: invalid --arg-max\n" .
-            "Please only use whole numbers >= 1024\n");
     }
 
     my $ldif_aref = LDAP::Utils::read_ldif($ldif_cmd);
@@ -112,25 +105,15 @@ sub main {
         delete($files_before{$filename});
         $i++;
     }
-    my @filelist_junks;
-    if (@filelist) {
-        my $len = 0;
-        my $j = 0;
-        for my $filename (@filelist) {
-            if (($len + length $filename) <= $arg_max) {
-                push @{ $filelist_junks[$j] }, $filename;
-                $len = $len + length $filename;
-            } else {
-                $j++;
-                push @{ $filelist_junks[$j] }, $filename;
-                $len = length $filename;
-            }
-        }
+    my @filelist_rm = keys %files_before;
+    my $filelist_chunks_ref = LDAP::Utils::get_chunks(\@filelist);
+    my $filelist_rm_chunks_ref = LDAP::Utils::get_chunks(\@filelist_rm);
+    foreach my $chunk_ref (@$filelist_chunks_ref) {
+        $repo->command('add', @$chunk_ref) if $chunk_ref;
     }
-    for my $junk (@filelist_junks) {
-        $repo->command('add', @$junk) if @$junk;
+    foreach my $chunk_ref (@$filelist_rm_chunks_ref) {
+        $repo->command('rm', @$chunk_ref) if $chunk_ref;
     }
-    $repo->command('rm', (keys %files_before)) if %files_before;
 
     $repo->command('commit', "--message=$commit_msg", "--date=$commit_date");
     $repo->command('gc', '--quiet') if $gc;
@@ -271,6 +254,26 @@ sub get_value_from_attribute {
     return $value;
 }
 
+sub get_chunks {
+    my $filelist_ref = shift;
+    my $MAXARGS = 1048576;
+    my @filelist_chunks;
+    my $len = 0;
+    my $temp_array_ref;
+    for my $filename (@$filelist_ref) {
+        if (($len + length $filename) > $MAXARGS) {
+            push @filelist_chunks, $temp_array_ref;
+            $len = 0;
+            my $new_array_ref;
+            $temp_array_ref = $new_array_ref;
+        }
+        push @$temp_array_ref, $filename;
+        $len = $len + length $filename;
+    }
+    push @filelist_chunks, $temp_array_ref;
+    return \@filelist_chunks;
+}
+
 1;
 
 __END__
@@ -388,12 +391,6 @@ attribute names and results in C<^exclude_regex: >.
 =item B<--suffix E<lt>dn_suffixE<gt>>
 
 Replace the DN suffix of the backup with the string C<suffix> in the file name.
-
-=item B<--arg-max E<lt>lenghtE<gt>>
-
-Set the maximal supported argument length. If the length of all resulting
-filenames is greater than C<length>, the files are split up into multiple junks
-and staged using multiple C<git add> operations. Default: 1048576
 
 =item B<--help>
 
