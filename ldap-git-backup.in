@@ -63,8 +63,15 @@ sub main {
         push(@filelist, $filename);
         delete($files_before{$filename});
     }
-    $repo->command('add', @filelist) if @filelist;
-    $repo->command('rm', (keys %files_before)) if %files_before;
+    my @filelist_rm = keys %files_before;
+    my $filelist_chunks_ref = LDAP::Utils::get_chunks(\@filelist);
+    my $filelist_rm_chunks_ref = LDAP::Utils::get_chunks(\@filelist_rm);
+    foreach my $chunk_ref (@$filelist_chunks_ref) {
+        $repo->command('add', @$chunk_ref) if $chunk_ref;
+    }
+    foreach my $chunk_ref (@$filelist_rm_chunks_ref) {
+        $repo->command('rm', @$chunk_ref) if $chunk_ref;
+    }
 
     $repo->command('commit', "--message=$commit_msg", "--date=$commit_date");
     $repo->command('gc', '--quiet') if $gc;
@@ -180,6 +187,26 @@ sub get_value_from_attribute {
         $value = ( split(': ', $attribute, 2) )[1];
         }
     return $value;
+}
+
+sub get_chunks {
+    my $filelist_ref = shift;
+    my $MAXARGS = 1048576;
+    my @filelist_chunks;
+    my $len = 0;
+    my $temp_array_ref;
+    for my $filename (@$filelist_ref) {
+        if (($len + length $filename) > $MAXARGS) {
+            push @filelist_chunks, $temp_array_ref;
+            $len = 0;
+            my $new_array_ref;
+            $temp_array_ref = $new_array_ref;
+        }
+        push @$temp_array_ref, $filename;
+        $len = $len + length $filename;
+    }
+    push @filelist_chunks, $temp_array_ref;
+    return \@filelist_chunks;
 }
 
 1;
