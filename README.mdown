@@ -48,12 +48,6 @@ The script <code>ldap-git-backup</code> is a convenient way to automate this pro
 
 The backup location will be <code>/var/backups/ldap</code> or an alternative directory given by the <code>--backup-dir</code> option.  This directory will also contain the Git repository.  The directory and the Git repository will be created if needed when the first backup is made.
 
-If you want to also have the DN of the entry in the filename, use the option <code>--dn</code>. This option will prefix the filename with the entry's reversed DN. Or if used in conjunction with <code>--sort</code> using the entry's normal DN. This option is useful when the order of entries is important for the restore scenario, for example if you want to restore only parts of a database using <code>ldapadd</code> while <code>slapd</code> is running. Consider using <code>ldapsearch</code> as <code>--ldif-cmd</code> in such scenarios for optimal sorting. Using this option could break the backup if you have very long DNs and the resulting filename exceeds the maximum filename length of the underlying filesystem. If you wish to hide a long DN suffix of a backup, you can use the option <code>--suffix</code> to specify the part at the end of the DN to be replace by the string <code>suffix</code>.
-
-To preserve the exact order of entries in a backup, use the option <code>--sort</code>, which will prefix the filename with an incremental hexadecimal number padded with zeros. This option is useful to backup <code>cn=config</code>. It is not recommended for regular DITs. This option can also be combined with the option <code>--dn</code>. The default padding length of the prefix is 5, which is suitable for correct sorting of up to ~1M entries. You can use the option <code>--sort-prefix</code> to specify a different value.
-
-If you want to exclude some attributes from the backup, use the option <code>--exclude-attrs exclude_regex</code>, where <code>exclude_regex</code> is a regular expression to be matched against the attribute names. This will Exclude all attributes matching the regular expression. The regex is effectively enclosed with prefix <code>^</code> and suffix <code>: </code> to only match attribute names and results in <code>^exclude_regex: </code>.
-
 ## Backup Strategies
 
 The simplest backup strategy would just call <code>ldap-git-backup</code> once per day via cron.  Pick a quiet time for the LDAP directory and add a command like the following to your crontab (e.g., <code>crontab -e</code> or in <code>/etc/cron.d/ldap-git-backup</code>):

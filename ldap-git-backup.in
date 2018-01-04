@@ -21,11 +21,6 @@ sub main {
     my $commit_msg  = 'ldap-git-backup';
     my $commit_date = time();
     my $gc = 1;
-    my $dn = 0;
-    my $sort = 0;
-    my $sort_prefix = 5;
-    my $exclude_attrs = "";
-    my $suffix = "";
     my $help;
     GetOptions(
         'ldif-cmd=s'    => \$ldif_cmd,
@@ -33,11 +28,6 @@ sub main {
         'commit-msg=s'  => \$commit_msg,
         'commit-date=s' => \$commit_date,
         'gc!'           => \$gc,
-        'dn'            => \$dn,
-        'sort'          => \$sort,
-        'sort-prefix=s' => \$sort_prefix,
-        'exclude-attrs=s' => \$exclude_attrs,
-        'suffix=s'      => \$suffix,
         'help'          => \$help,
     );
     pod2usage('-verbose' => 2, '-exit_status' => 0) if $help;
@@ -49,11 +39,6 @@ sub main {
 
     if ( $backup_dir =~ m{\A [^/]}xms ) {
         $backup_dir = getcwd() . '/' . $backup_dir;
-    }
-
-    if ((!($sort_prefix =~ m/^\d+\z/)) || ($sort_prefix == 0)) {
-        die("Error: invalid --sort_prefix\n" .
-            "Please only use whole numbers > 0\n");
     }
 
     my $ldif_aref = LDAP::Utils::read_ldif($ldif_cmd);
@@ -70,40 +55,13 @@ sub main {
     for my $f (@filelist) { $files_before{$f} = 1 }
 
     @filelist = ();
-    my $i=0;
     for my $ldif (@$ldif_aref) {
         my $filename = LDAP::Utils::filename($ldif);
-        if ($dn && $sort) {
-            my $dn  = LDAP::Utils::file_dn($ldif, $suffix);
-            my $cnt = LDAP::Utils::counter($i, $sort_prefix);
-            $filename = $cnt . '_' . $dn . '_' . $filename;
-        } elsif ($sort) {
-            my $cnt = LDAP::Utils::counter($i, $sort_prefix);
-            $filename = $cnt . '_' . $filename;
-        } elsif ($dn) {
-            my $dn  = LDAP::Utils::file_dn_rev($ldif, $suffix);
-            $filename = $dn . '_' . $filename;
-        }
         open(my $fh, '>', "$backup_dir/$filename");
-        if ($exclude_attrs ne "") {
-            my @lines = split /\n/, $ldif;
-            my $n = 0;
-            while (my $l = $lines[$n]) {
-                if ($l =~ m/^$exclude_attrs: /) {
-                    while ($lines[++$n] && $lines[$n] =~ /^ /) {};
-                } else {
-                    print {$fh} $l."\n";
-                    $n++;
-                }
-            }
-            print {$fh} "\n";
-        } else {
-            print {$fh} $ldif;
-        }
+        print {$fh} $ldif;
         close($fh);
         push(@filelist, $filename);
         delete($files_before{$filename});
-        $i++;
     }
     my @filelist_rm = keys %files_before;
     my $filelist_chunks_ref = LDAP::Utils::get_chunks(\@filelist);
@@ -174,12 +132,6 @@ sub filename {
     return $filename . '.ldif';
 }
 
-sub counter {
-    my ($i, $len) = @_;
-    my $counter = sprintf("%0." . $len . "x",$i);
-    return $counter
-}
-
 sub dn {
     my ($ldif) = @_;
     $ldif =~ s{\n }{}gs; # combine multiline attributes
@@ -191,23 +143,6 @@ sub dn {
     }
 
     return '';
-}
-
-sub file_dn {
-    my ($ldif, $suffix) = @_;
-    my $dn = dn($ldif);
-    if ($suffix ne "") {
-        $dn =~ s#$suffix$#suffix#;
-    }
-    $dn =~ s#/##;
-    return $dn;
-}
-
-sub file_dn_rev {
-    my ($ldif, $suffix) = @_;
-    my $dn = file_dn($ldif, $suffix);
-    $dn = join ",", reverse split /,/, $dn;
-    return $dn;
 }
 
 sub canonicalize_dn {
@@ -360,37 +295,6 @@ Do not perform a garbage collection (git gc) after checking in the new backup.
 By default gc is done so as to keep the size of the backup down.  You may want
 to skip gc for the occasional backup run but leave it on for the scheduled
 backups.
-
-=item B<--dn>
-
-Prefix the filename with the entry's reversed DN. Or if used in conjunction with
---sort using the entry's normal DN. This option is useful when the order of
-entries is important for the restore scenario, for example if you want to restore
-only parts of a database using ldapadd while slapd is running. Consider using
-ldapsearch as --ldif-cmd in such scenarios for optimal sorting. Warning: using
-this option may break the backup if you have very long DNs and the resulting
-filename exceeds the maximum filename length of the underlying filesystem.
-
-=item B<--sort>
-
-Prefix the filename with an incremental hexadecimal number padded with zeros.
-This option is useful to backup cn=config with the exact order of entries. It is
-not recommended for regular DITs.
-
-=item B<--sort-prefix E<lt>prefix_lengthE<gt>>
-
-The number of zeros the hexadecimal prefix is padded with when using --sort.
-Default: 5
-
-=item B<--exclude-attrs E<lt>exclude_regexE<gt>>
-
-Exclude all attributes matching the regular expression C<exclude_regex>. The
-regex is effectively enclosed with prefix C<^> and suffix C<: > to only match
-attribute names and results in C<^exclude_regex: >.
-
-=item B<--suffix E<lt>dn_suffixE<gt>>
-
-Replace the DN suffix of the backup with the string C<suffix> in the file name.
 
 =item B<--help>
 
