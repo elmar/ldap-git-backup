@@ -82,7 +82,7 @@ Here is some example code that may serve as a start:
             --backup-dir $BKUP_DIR \
             --commit-msg $filename \
             --commit-date $filepath
-        mv $path DONE/$filename
+        mv $filepath DONE/$filename
     done
 
 To use this script you put all compressed old LDIF file in a subdirectory <code>TODO</code> of some directory where you keep the backups.  You must also create another directory <code>DONE</code> where the processed backups will be moved into.  Furthermore, the script assumes that the backup files still have their original modification time of when the backup was performed.  This is used to sort the files and to set the commit date.
