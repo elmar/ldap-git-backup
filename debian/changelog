@@ -1,6 +1,7 @@
 ldap-git-backup (1.0.8-2) UNRELEASED; urgency=medium
 
   * Bump debhelper from old 10 to 12.
+  * Set debhelper-compat version in Build-Depends.
 
  -- Debian Janitor <janitor@jelmer.uk>  Mon, 20 Apr 2020 23:04:19 +0000
 

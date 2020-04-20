@@ -3,7 +3,7 @@ Section: admin
 Priority: optional
 Maintainer: Elmar S. Heeb <elmar@heebs.ch>
 Uploaders: Axel Beckert <abe@debian.org>
-Build-Depends: debhelper (>= 12~),
+Build-Depends: debhelper-compat (= 12),
                git,
                libipc-run-perl,
                perl-doc
