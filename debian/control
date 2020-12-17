@@ -16,7 +16,7 @@ Rules-Requires-Root: no
 Package: ldap-git-backup
 Architecture: all
 Depends: git,
-         perl,
+         perl:any,
          perl-doc,
          ${misc:Depends}
 Suggests: slapd
