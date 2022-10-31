@@ -3,6 +3,7 @@ ldap-git-backup (1.0.8-2) UNRELEASED; urgency=medium
   * Update watch file format version to 4.
   * Bump debhelper from old 10 to 13.
   * Set debhelper-compat version in Build-Depends.
+  * Set upstream metadata fields: Repository-Browse.
 
  -- Debian Janitor <janitor@jelmer.uk>  Mon, 31 Oct 2022 22:47:42 -0000
 
