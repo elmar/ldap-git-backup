@@ -19,5 +19,5 @@ for filepath in `ls -1tr $LDIF_DIR/TODO/*.gz` ; do
         --backup-dir $BKUP_DIR \
         --commit-msg $filename \
         --commit-date $filepath
-    mv $path DONE/$filename
+    mv $filepath DONE/$filename
 done
